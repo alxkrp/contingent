@@ -1,9 +1,11 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm") apply false
 }
 
 allprojects {
-    group = "ru.ak"
+    group = "ru.ak.contingent"
     version = "0.1-SNAPSHOT"
 
     repositories {
@@ -12,7 +14,9 @@ allprojects {
         maven { url = uri("https://jitpack.io") }
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+    subprojects {
+        tasks.withType<KotlinCompile> {
+            kotlinOptions.jvmTarget = "17"
+        }
     }
 }
