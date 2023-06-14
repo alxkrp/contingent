@@ -202,6 +202,12 @@ components:
           description: ФИО студента
         sex:
           $ref: '#/components/schemas/Sex'
+        semester:
+          type: integer
+          description: Семестр
+        eduTear:
+          type: integer
+          description: Учебный год
         specialityId:
           $ref: '#/components/schemas/Speciality'
         facultyId:
@@ -223,10 +229,10 @@ components:
       properties:
         specialityId:
           type: string
-          description: ID cпециальности
+          description: ID специальности
         specialityName:
           type: string
-          description: Название cпециальности
+          description: Название специальности
 
     Faculty:
       type: object
