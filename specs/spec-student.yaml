@@ -180,7 +180,7 @@ components:
           update: '#/components/schemas/StudentUpdateResponse'
           delete: '#/components/schemas/StudentDeleteResponse'
           search: '#/components/schemas/StudentSearchResponse'
-          init: '#/components/schemas/StudentInitResponse'
+          init:   '#/components/schemas/StudentInitResponse'
 
 
     StudentId:
@@ -228,8 +228,7 @@ components:
       description: Справочник специальностей
       properties:
         specialityId:
-          type: string
-          description: ID специальности
+          $ref: '#/components/schemas/SpecialityId'
         specialityName:
           type: string
           description: Название специальности
@@ -239,8 +238,7 @@ components:
       description: Справочник факультетов
       properties:
         facultyId:
-          type: string
-          description: ID факультета
+          $ref: '#/components/schemas/FacultyId'
         facultyName:
           type: string
           description: Название факультета
