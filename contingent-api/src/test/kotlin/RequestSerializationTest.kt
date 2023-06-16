@@ -15,6 +15,11 @@ class RequestSerializationTest {
         student = StudentCreateObject(
             fio = "Иванов Иван Иванович",
             sex = Sex.M,
+            semester = 2,
+            eduYear = 2023,
+            specialityId = 5,
+            facultyId = 10,
+            groupNum = "123-л",
         )
     )
 
@@ -24,6 +29,11 @@ class RequestSerializationTest {
 
         assertContains(json, Regex("\"fio\":\\s*\"Иванов Иван Иванович\""))
         assertContains(json, Regex("\"sex\":\\s*\"M\""))
+        assertContains(json, Regex("\"semester\":\\s*2"))
+        assertContains(json, Regex("\"eduYear\":\\s*2023"))
+        assertContains(json, Regex("\"specialityId\":\\s*5"))
+        assertContains(json, Regex("\"facultyId\":\\s*10"))
+        assertContains(json, Regex("\"groupNum\":\\s*\"123-л\""))
         assertContains(json, Regex("\"mode\":\\s*\"stub\""))
         assertContains(json, Regex("\"stub\":\\s*\"badFio\""))
         assertContains(json, Regex("\"requestType\":\\s*\"create\""))

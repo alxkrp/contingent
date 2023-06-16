@@ -18,6 +18,12 @@ class MapperTest {
             ),
             student = StudentCreateObject(
                 fio = "Иванов",
+                sex = Sex.M,
+                semester = 2,
+                eduYear = 2023,
+                specialityId = 5,
+                facultyId = 10,
+                groupNum = "123-л",
             ),
         )
 
@@ -27,6 +33,12 @@ class MapperTest {
         assertEquals(ContStubs.SUCCESS, context.stubCase)
         assertEquals(ContWorkMode.STUB, context.workMode)
         assertEquals("Иванов", context.studRequest.fio)
+        assertEquals(ContStudentSex.M, context.studRequest.sex)
+        assertEquals(2, context.studRequest.semester)
+        assertEquals(2023, context.studRequest.eduYear)
+        assertEquals(5, context.studRequest.specialityId)
+        assertEquals(10, context.studRequest.facultyId)
+        assertEquals("123-л", context.studRequest.groupNum)
     }
 
     @Test
@@ -36,6 +48,12 @@ class MapperTest {
             command = ContCommand.CREATE,
             studResponse = ContStudent(
                 fio = "Иванов",
+                sex = ContStudentSex.M,
+                semester = 2,
+                eduYear = 2023,
+                specialityId = 5,
+                facultyId = 10,
+                groupNum = "123-л",
             ),
             errors = mutableListOf(
                 ContError(
@@ -52,5 +70,11 @@ class MapperTest {
 
         assertEquals("1234", req.requestId)
         assertEquals("Иванов", req.student?.fio)
+        assertEquals(Sex.M, req.student?.sex)
+        assertEquals(2, req.student?.semester)
+        assertEquals(2023, req.student?.eduYear)
+        assertEquals(5, req.student?.specialityId)
+        assertEquals(10, req.student?.facultyId)
+        assertEquals("123-л", req.student?.groupNum)
     }
 }

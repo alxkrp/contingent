@@ -92,14 +92,20 @@ private fun StudentSearchFilter?.toInternal(): ContStudentFilter = ContStudentFi
 private fun StudentCreateObject.toInternal(): ContStudent = ContStudent(
     fio = this.fio ?: "",
     sex = this.sex.fromTransport(),
+    semester = this.semester ?: 0,
+    eduYear = this.eduYear ?: 0,
     specialityId = this.specialityId ?: 0,
     facultyId = this.facultyId ?: 0,
+    groupNum = this.groupNum ?: "",
 )
 
 private fun StudentUpdateObject.toInternal(): ContStudent = ContStudent(
     id = this.id.toStudentId(),
     fio = this.fio ?: "",
     sex = this.sex.fromTransport(),
+    semester = this.semester ?: 0,
+    eduYear = this.eduYear ?: 0,
     specialityId = this.specialityId ?: 0,
     facultyId = this.facultyId ?: 0,
+    groupNum = this.groupNum ?: "",
 )

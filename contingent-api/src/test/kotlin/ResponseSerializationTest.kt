@@ -11,6 +11,11 @@ class ResponseSerializationTest {
         student = StudentResponseObject(
             fio = "Иванов Иван Иванович",
             sex = Sex.M,
+            semester = 2,
+            eduYear = 2023,
+            specialityId = 5,
+            facultyId = 10,
+            groupNum = "123-л",
         )
     )
 
@@ -20,6 +25,11 @@ class ResponseSerializationTest {
 
         assertContains(json, Regex("\"fio\":\\s*\"Иванов Иван Иванович\""))
         assertContains(json, Regex("\"sex\":\\s*\"M\""))
+        assertContains(json, Regex("\"semester\":\\s*2"))
+        assertContains(json, Regex("\"eduYear\":\\s*2023"))
+        assertContains(json, Regex("\"specialityId\":\\s*5"))
+        assertContains(json, Regex("\"facultyId\":\\s*10"))
+        assertContains(json, Regex("\"groupNum\":\\s*\"123-л\""))
         assertContains(json, Regex("\"responseType\":\\s*\"create\""))
     }
 
