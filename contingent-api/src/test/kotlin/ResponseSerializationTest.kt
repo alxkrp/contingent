@@ -1,6 +1,9 @@
 package ru.ak.contingent.api
 
-import ru.ak.contingent.api.models.*
+import ru.ak.contingent.api.models.IResponse
+import ru.ak.contingent.api.models.Sex
+import ru.ak.contingent.api.models.StudentCreateResponse
+import ru.ak.contingent.api.models.StudentResponseObject
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
