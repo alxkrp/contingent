@@ -10,7 +10,7 @@ class ResponseSerializationTest {
         requestId = "123",
         student = StudentResponseObject(
             fio = "Иванов Иван Иванович",
-            sex = Sex.М,
+            sex = Sex.M,
         )
     )
 
@@ -19,7 +19,7 @@ class ResponseSerializationTest {
         val json = apiMapper.writeValueAsString(response)
 
         assertContains(json, Regex("\"fio\":\\s*\"Иванов Иван Иванович\""))
-        assertContains(json, Regex("\"sex\":\\s*\"М\""))
+        assertContains(json, Regex("\"sex\":\\s*\"M\""))
         assertContains(json, Regex("\"responseType\":\\s*\"create\""))
     }
 

@@ -1,7 +1,11 @@
 rootProject.name = "Контингент"
 
 //include("m1l1-hello")
-include("cont-personal")
+include("contingent-api")
+
+include("contingent-common")
+include("contingent-mappers")
+
 
 pluginManagement {
     val kotlinVersion: String by settings

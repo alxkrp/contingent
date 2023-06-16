@@ -184,13 +184,13 @@ components:
 
 
     StudentId:
-      type: string
+      type: integer
       description: Идентификатор студента
     SpecialityId:
-      type: string
+      type: integer
       description: Идентификатор специальности
     FacultyId:
-      type: string
+      type: integer
       description: Идентификатор факультета
 
     BaseStudent:
@@ -205,23 +205,23 @@ components:
         semester:
           type: integer
           description: Семестр
-        eduTear:
+        eduYear:
           type: integer
           description: Учебный год
         specialityId:
-          $ref: '#/components/schemas/Speciality'
+          $ref: '#/components/schemas/SpecialityId'
         facultyId:
-          $ref: '#/components/schemas/Faculty'
+          $ref: '#/components/schemas/FacultyId'
         groupNum:
           type: string
           description: № группы
 
     Sex:
       type: string
-      description: 'Пол '
+      description: 'Пол'
       enum:
-        - М
-        - Ж
+        - M
+        - W
 
     Speciality:
       type: object
@@ -254,7 +254,7 @@ components:
     StudentCreateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/StudentRequestDebug'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
         - type: object
           properties:
             student:
@@ -270,7 +270,7 @@ components:
     StudentReadRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/StudentRequestDebug'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
         - type: object
           properties:
             student:
@@ -287,7 +287,7 @@ components:
     StudentUpdateRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/StudentRequestDebug'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
         - type: object
           properties:
             student:
@@ -303,7 +303,7 @@ components:
     StudentDeleteRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/StudentRequestDebug'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
         - type: object
           properties:
             student:
@@ -320,7 +320,7 @@ components:
     StudentSearchRequest:
       allOf:
         - $ref: '#/components/schemas/IRequest'
-        - $ref: '#/components/schemas/StudentRequestDebug'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
         - type: object
           properties:
             studentFilter:
@@ -379,28 +379,28 @@ components:
         - $ref: '#/components/schemas/StudentResponseMulti'
 
     # STUBS ======================
-    StudentRequestDebugMode:
+    ContingentRequestDebugMode:
       type: string
       enum:
         - prod
         - test
         - stub
 
-    StudentRequestDebug:
+    ContingentRequestDebug:
       type: object
       properties:
         debug:
-          $ref: '#/components/schemas/StudentDebug'
+          $ref: '#/components/schemas/ContingentDebug'
 
-    StudentDebug:
+    ContingentDebug:
       type: object
       properties:
         mode:
-          $ref: '#/components/schemas/StudentRequestDebugMode'
+          $ref: '#/components/schemas/ContingentRequestDebugMode'
         stub:
-          $ref: '#/components/schemas/StudentRequestDebugStubs'
+          $ref: '#/components/schemas/ContingentRequestDebugStubs'
 
-    StudentRequestDebugStubs:
+    ContingentRequestDebugStubs:
       type: string
       description: Перечисления всех стабов
       enum:
