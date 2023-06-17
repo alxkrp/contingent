@@ -3,6 +3,8 @@ package ru.ak.contingent.api
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
+import ru.ak.contingent.api.models.IRequest
+import ru.ak.contingent.api.models.IResponse
 
 val apiMapper = JsonMapper.builder().run {
     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -10,7 +12,6 @@ val apiMapper = JsonMapper.builder().run {
     build()
 }
 
-/*;
 fun apiRequestSerialize(request: IRequest): String = apiMapper.writeValueAsString(request)
 
 @Suppress("UNCHECKED_CAST")
@@ -22,4 +23,3 @@ fun apiResponseSerialize(response: IResponse): String = apiMapper.writeValueAsSt
 @Suppress("UNCHECKED_CAST")
 fun <T : IResponse> apiResponseDeserialize(json: String): T =
     apiMapper.readValue(json, IResponse::class.java) as T
-*/

@@ -17,5 +17,5 @@ data class ContContext(
     var studRequest: ContStudent = ContStudent(),
     var studFilterRequest: ContStudentFilter = ContStudentFilter(),
     var studResponse: ContStudent = ContStudent(),
-    var studsResponse: MutableList<ContStudent> = mutableListOf(),
+    val studsResponse: MutableList<ContStudent> = mutableListOf(),
 )
