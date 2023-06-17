@@ -1,0 +1,415 @@
+openapi: 3.0.4
+info:
+  title: "Contingent ${VERSION_APP}"
+  description: This is a student's personal information
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost
+tags:
+  - name: student
+    description: Персональная информация студента
+paths:
+  /student/create:
+    post:
+      tags:
+        - student
+      summary: Create student
+      operationId: studentCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentCreateResponse'
+  /student/read:
+    post:
+      tags:
+        - student
+      summary: Read student
+      operationId: studentRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentReadResponse'
+  /student/update:
+    post:
+      tags:
+        - student
+      summary: Update student
+      operationId: studentUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentUpdateResponse'
+  /student/delete:
+    post:
+      tags:
+        - student
+      summary: Delete student
+      operationId: studentDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDeleteResponse'
+  /student/search:
+    post:
+      tags:
+        - student
+      summary: Search student
+      operationId: studentSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentSearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/StudentCreateRequest'
+          read:   '#/components/schemas/StudentReadRequest'
+          update: '#/components/schemas/StudentUpdateRequest'
+          delete: '#/components/schemas/StudentDeleteRequest'
+          search: '#/components/schemas/StudentSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/StudentCreateResponse'
+          read:   '#/components/schemas/StudentReadResponse'
+          update: '#/components/schemas/StudentUpdateResponse'
+          delete: '#/components/schemas/StudentDeleteResponse'
+          search: '#/components/schemas/StudentSearchResponse'
+          init:   '#/components/schemas/StudentInitResponse'
+
+
+    StudentId:
+      type: integer
+      description: Идентификатор студента
+    SpecialityId:
+      type: integer
+      description: Идентификатор специальности
+    FacultyId:
+      type: integer
+      description: Идентификатор факультета
+
+    BaseStudent:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        fio:
+          type: string
+          description: ФИО студента
+        sex:
+          $ref: '#/components/schemas/Sex'
+        semester:
+          type: integer
+          description: Семестр
+        eduYear:
+          type: integer
+          description: Учебный год
+        specialityId:
+          $ref: '#/components/schemas/SpecialityId'
+        facultyId:
+          $ref: '#/components/schemas/FacultyId'
+        groupNum:
+          type: string
+          description: № группы
+
+    Sex:
+      type: string
+      description: 'Пол'
+      enum:
+        - M
+        - W
+
+    Speciality:
+      type: object
+      description: Справочник специальностей
+      properties:
+        specialityId:
+          $ref: '#/components/schemas/SpecialityId'
+        specialityName:
+          type: string
+          description: Название специальности
+
+    Faculty:
+      type: object
+      description: Справочник факультетов
+      properties:
+        facultyId:
+          $ref: '#/components/schemas/FacultyId'
+        facultyName:
+          type: string
+          description: Название факультета
+
+    StudentInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    StudentCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseStudent'
+
+    StudentCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
+        - type: object
+          properties:
+            student:
+              $ref: '#/components/schemas/StudentCreateObject'
+
+    StudentReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/StudentId'
+
+    StudentReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
+        - type: object
+          properties:
+            student:
+              $ref: '#/components/schemas/StudentReadObject'
+
+    StudentUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseStudent'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/StudentId'
+
+    StudentUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
+        - type: object
+          properties:
+            student:
+              $ref: '#/components/schemas/StudentUpdateObject'
+
+    StudentDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/StudentId'
+
+    StudentDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
+        - type: object
+          properties:
+            student:
+              $ref: '#/components/schemas/StudentDeleteObject'
+
+    StudentSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в объявлениях
+
+    StudentSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/ContingentRequestDebug'
+        - type: object
+          properties:
+            studentFilter:
+              $ref: '#/components/schemas/StudentSearchFilter'
+
+    StudentResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseStudent'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/StudentId'
+
+    StudentResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом студента
+          properties:
+            student:
+              $ref: '#/components/schemas/StudentResponseObject'
+
+    StudentResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных студентов
+          properties:
+            students:
+              type: array
+              items:
+                $ref: '#/components/schemas/StudentResponseObject'
+
+    StudentCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/StudentResponseSingle'
+
+    StudentReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/StudentResponseSingle'
+
+    StudentUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/StudentResponseSingle'
+
+    StudentDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/StudentResponseSingle'
+
+    StudentSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/StudentResponseMulti'
+
+    # STUBS ======================
+    ContingentRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    ContingentRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/ContingentDebug'
+
+    ContingentDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/ContingentRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/ContingentRequestDebugStubs'
+
+    ContingentRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badFio
+        - badSex
+        - badSpeciality
+        - badFaculty
+        - cannotDelete
+        - badSearchString
