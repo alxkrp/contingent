@@ -1,31 +1,9 @@
-/*plugins {
-    kotlin("jvm")
-}
-
-dependencies {
-    val coroutinesVersion: String by project
-
-    implementation(project(":contingent-common"))
-    implementation(project(":contingent-stubs"))
-
-    implementation(kotlin("test-common"))
-    implementation(kotlin("test-annotations-common"))
-
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-
-    implementation(kotlin("test-junit"))
-}
-*/
-
 plugins {
     kotlin("multiplatform")
 }
 
 kotlin {
     jvm {}
-//    linuxX64 {}
-//    macosX64 {}
-//    macosArm64 {}
 
     sourceSets {
         val coroutinesVersion: String by project
