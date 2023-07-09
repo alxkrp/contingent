@@ -9,6 +9,9 @@ include("contingent-stubs")
 
 include("contingent-app-spring")
 
+include("contingent-app-rabbit")
+
+
 pluginManagement {
     val kotlinVersion: String by settings
     val openapiVersion: String by settings
@@ -16,6 +19,7 @@ pluginManagement {
     val springDependencyManagementVersion: String by settings
     val pluginSpringVersion: String by settings
     val pluginJpa: String by settings
+    val bmuschkoVersion: String by settings
 
     plugins {
         kotlin("jvm") version kotlinVersion apply false
@@ -26,5 +30,8 @@ pluginManagement {
         id("org.springframework.boot") version springframeworkBootVersion apply false
         id("org.openapi.generator") version openapiVersion apply false
         id("io.spring.dependency-management") version springDependencyManagementVersion apply false
-    }
+
+        id("com.bmuschko.docker-java-application") version bmuschkoVersion apply false
+        id("com.bmuschko.docker-spring-boot-application") version bmuschkoVersion apply false
+        id("com.bmuschko.docker-remote-api") version bmuschkoVersion apply false    }
 }
