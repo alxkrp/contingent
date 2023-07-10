@@ -15,7 +15,7 @@ import ru.ak.contingent.common.models.ContState
 import ru.ak.contingent.mappers.fromTransport
 import ru.ak.contingent.mappers.toTransportStudent
 
-class RabbitDirectProcessorV1(
+class RabbitDirectProcessor(
     config: RabbitConfig,
     processorConfig: RabbitExchangeConfiguration,
     private val processor: ContStudentProcessor = ContStudentProcessor(),

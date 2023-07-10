@@ -3,7 +3,7 @@ package ru.ak.contingent.app.rabbit
 import ru.ak.contingent.app.rabbit.config.RabbitConfig
 import ru.ak.contingent.app.rabbit.config.RabbitExchangeConfiguration
 import ru.ak.contingent.app.rabbit.controller.RabbitController
-import ru.ak.contingent.app.rabbit.processor.RabbitDirectProcessorV1
+import ru.ak.contingent.app.rabbit.processor.RabbitDirectProcessor
 import ru.ak.contingent.biz.ContStudentProcessor
 
 fun main() {
@@ -21,7 +21,7 @@ fun main() {
     )
 
     val processor by lazy {
-        RabbitDirectProcessorV1(
+        RabbitDirectProcessor(
             config = config,
             processorConfig = producerConfigV1,
             processor = adProcessor
