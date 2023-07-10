@@ -1,7 +1,8 @@
 package ru.ak.contingent.stubs
 
 import ru.ak.contingent.common.models.ContStudent
-import ru.ak.contingent.common.models.*
+import ru.ak.contingent.common.models.ContStudentId
+import ru.ak.contingent.common.models.ContStudentSex
 
 object ContStudStubPersons {
     val STUDENT_IVAN: ContStudent
