@@ -15,7 +15,7 @@ class RabbitController(
             try {
                 launch { it.process() }
             } catch (e: RuntimeException) {
-                e.printStackTrace()
+                rabbitLogger.error(e.message, e)
             }
         }
     }
