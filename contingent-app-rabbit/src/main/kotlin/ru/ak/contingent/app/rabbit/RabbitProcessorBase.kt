@@ -6,11 +6,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
+import mu.KotlinLogging
 import ru.ak.contingent.app.rabbit.config.RabbitConfig
 import ru.ak.contingent.app.rabbit.config.RabbitExchangeConfiguration
 import ru.ak.contingent.app.rabbit.config.rabbitLogger
 import ru.ak.contingent.common.ContContext
 import kotlin.coroutines.CoroutineContext
+
+private val log = KotlinLogging.logger {}
 
 /**
  * Абстрактный класс для процессоров-консьюмеров RabbitMQ
@@ -71,7 +74,7 @@ abstract class RabbitProcessorBase(
      * Callback, вызываемый при отмене консьюмера
      */
     private fun getCancelCallback() = CancelCallback {
-        println("[$it] was cancelled")
+        log.info("[$it] was cancelled")
     }
 
     private suspend fun Channel.describeAndListen(
@@ -79,7 +82,7 @@ abstract class RabbitProcessorBase(
         cancelCallback: CancelCallback
     ) {
         withContext(Dispatchers.IO) {
-            println("start describing")
+            log.info("start describing")
             exchangeDeclare(processorConfig.exchange, processorConfig.exchangeType)
             // Объявляем очередь (не сохраняется при перезагрузке сервера; неэксклюзивна - доступна другим соединениям;
             // не удаляется, если не используется)
@@ -90,7 +93,7 @@ abstract class RabbitProcessorBase(
             queueBind(processorConfig.queueOut, processorConfig.exchange, processorConfig.keyOut)
             // запуск консьюмера с автоотправкой подтверждение при получении сообщения
             basicConsume(processorConfig.queueIn, true, processorConfig.consumerTag, deliverCallback, cancelCallback)
-            println("finish describing")
+            log.info("finish describing")
             while (isOpen) {
                 kotlin.runCatching {
                     delay(100)
@@ -99,7 +102,7 @@ abstract class RabbitProcessorBase(
                 }
             }
 
-            println("Channel for [${processorConfig.consumerTag}] was closed.")
+            log.info("Channel for [${processorConfig.consumerTag}] was closed.")
         }
     }
 }

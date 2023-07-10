@@ -5,6 +5,7 @@ import com.rabbitmq.client.ConnectionFactory
 import com.rabbitmq.client.DeliverCallback
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import mu.KotlinLogging
 import org.testcontainers.containers.RabbitMQContainer
 import ru.ak.contingent.api.apiMapper
 import ru.ak.contingent.api.models.*
@@ -18,6 +19,8 @@ import ru.ak.contingent.stubs.ContStudentStub
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+
+private val log = KotlinLogging.logger {}
 
 class RabbitContingentTest {
 
@@ -66,18 +69,18 @@ class RabbitContingentTest {
 
     @BeforeTest
     fun tearUp() {
-        println("init controller")
+        log.info("init controller")
         GlobalScope.launch {
             controller.start()
         }
         Thread.sleep(6000)
         // await when controller starts producers
-        println("controller initiated")
+        log.info("controller initiated")
     }
 
     @Test
     fun studentCreateTest() {
-        println("start test")
+        log.info("start test")
         val processorConfig = processor.processorConfig
         val keyIn = processorConfig.keyIn
 
@@ -95,7 +98,7 @@ class RabbitContingentTest {
             channel.queueBind(queueOut, processorConfig.exchange, processorConfig.keyOut)
             val deliverCallback = DeliverCallback { consumerTag, delivery ->
                 responseJson = String(delivery.body, Charsets.UTF_8)
-                println(" [x] Received by $consumerTag: '$responseJson'")
+                log.info(" [x] Received by $consumerTag: '$responseJson'")
             }
             channel.basicConsume(queueOut, true, deliverCallback, CancelCallback { })
 
@@ -103,7 +106,7 @@ class RabbitContingentTest {
 
             Thread.sleep(3000)
             // waiting for message processing
-            println("RESPONSE: $responseJson")
+            log.info("RESPONSE: $responseJson")
             val response = apiMapper.readValue(responseJson, StudentCreateResponse::class.java)
             val expected = ContStudentStub.get()
 

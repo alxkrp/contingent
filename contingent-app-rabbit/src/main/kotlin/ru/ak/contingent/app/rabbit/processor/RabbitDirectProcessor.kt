@@ -2,6 +2,7 @@ package ru.ak.contingent.app.rabbit.processor
 
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Delivery
+import mu.KotlinLogging
 import ru.ak.contingent.api.apiMapper
 import ru.ak.contingent.api.models.IRequest
 import ru.ak.contingent.app.rabbit.RabbitProcessorBase
@@ -15,6 +16,8 @@ import ru.ak.contingent.common.models.ContState
 import ru.ak.contingent.mappers.fromTransport
 import ru.ak.contingent.mappers.toTransportStudent
 
+private val log = KotlinLogging.logger {}
+
 class RabbitDirectProcessor(
     config: RabbitConfig,
     processorConfig: RabbitExchangeConfiguration,
@@ -23,15 +26,15 @@ class RabbitDirectProcessor(
     override suspend fun Channel.processMessage(message: Delivery, context: ContContext) {
         apiMapper.readValue(message.body, IRequest::class.java).run {
             context.fromTransport(this).also {
-                println("TYPE: ${this::class.simpleName}")
+                log.info("TYPE: ${this::class.simpleName}")
             }
         }
         val response = processor.exec(context).run { context.toTransportStudent() }
         apiMapper.writeValueAsBytes(response).also {
-            println("Publishing $response to ${processorConfig.exchange} exchange for keyOut ${processorConfig.keyOut}")
+            log.info("Publishing $response to ${processorConfig.exchange} exchange for keyOut ${processorConfig.keyOut}")
             basicPublish(processorConfig.exchange, processorConfig.keyOut, null, it)
         }.also {
-            println("published")
+            log.info("published")
         }
     }
 

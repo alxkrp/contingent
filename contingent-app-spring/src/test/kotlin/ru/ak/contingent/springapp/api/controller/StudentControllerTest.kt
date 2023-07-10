@@ -10,11 +10,10 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import ru.ak.contingent.springapp.service.ContStudentBlockingProcessor
 import ru.ak.contingent.api.models.*
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.mappers.*
-import ru.ak.contingent.springapp.api.controller.StudentController
+import ru.ak.contingent.springapp.service.ContStudentBlockingProcessor
 
 @WebMvcTest(StudentController::class)
 internal class StudentControllerTest {
