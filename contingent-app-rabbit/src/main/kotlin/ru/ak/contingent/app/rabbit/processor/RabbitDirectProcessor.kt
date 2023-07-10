@@ -39,7 +39,7 @@ class RabbitDirectProcessor(
     }
 
     override fun Channel.onError(e: Throwable, context: ContContext) {
-        e.printStackTrace()
+        log.error(e.message, e)
         context.state = ContState.FAILING
         context.addError(error = arrayOf(e.asContError()))
         val response = context.toTransportStudent()

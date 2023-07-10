@@ -98,7 +98,7 @@ abstract class RabbitProcessorBase(
                 kotlin.runCatching {
                     delay(100)
                 }.onFailure { e ->
-                    e.printStackTrace()
+                    log.error(e.message, e)
                 }
             }
 
