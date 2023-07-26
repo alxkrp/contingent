@@ -11,6 +11,8 @@ include("contingent-app-spring")
 
 include("contingent-app-rabbit")
 
+include("contingent-lib-cor")
+
 
 pluginManagement {
     val kotlinVersion: String by settings
