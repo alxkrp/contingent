@@ -11,4 +11,5 @@ enum class ContStubs {
     BAD_FACULTY,
     CANNOT_DELETE,
     BAD_SEARCH_STRING,
+    DB_ERROR,
 }

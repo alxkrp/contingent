@@ -4,4 +4,5 @@ enum class ContState {
     NONE,
     RUNNING,
     FAILING,
+    FINISHING,
 }
