@@ -1,6 +1,7 @@
-package ru.ak.contingent.biz
+package ru.ak.contingent.biz.stub
 
 import kotlinx.coroutines.test.runTest
+import ru.ak.contingent.biz.ContStudentProcessor
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.models.*
 import ru.ak.contingent.common.stubs.ContStubs
@@ -8,16 +9,16 @@ import ru.ak.contingent.stubs.ContStudentStub
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StudentReadStubTest {
+class StudentDeleteStubTest {
 
     private val processor = ContStudentProcessor()
     val id = ContStudentId(777)
 
     @Test
-    fun read() = runTest {
+    fun delete() = runTest {
 
         val ctx = ContContext(
-            command = ContCommand.READ,
+            command = ContCommand.DELETE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.SUCCESS,
@@ -25,25 +26,23 @@ class StudentReadStubTest {
                 id = id,
             ),
         )
-
         processor.exec(ctx)
 
-        with (ContStudentStub.get()) {
-            assertEquals(id, ctx.studResponse.id)
-            assertEquals(fio, ctx.studResponse.fio)
-            assertEquals(sex, ctx.studResponse.sex)
-            assertEquals(semester, ctx.studResponse.semester)
-            assertEquals(eduYear, ctx.studResponse.eduYear)
-            assertEquals(specialityId, ctx.studResponse.specialityId)
-            assertEquals(facultyId, ctx.studResponse.facultyId)
-            assertEquals(groupNum, ctx.studResponse.groupNum)
-        }
+        val stub = ContStudentStub.get()
+        assertEquals(stub.id, ctx.studResponse.id)
+        assertEquals(stub.fio, ctx.studResponse.fio)
+        assertEquals(stub.sex, ctx.studResponse.sex)
+        assertEquals(stub.semester, ctx.studResponse.semester)
+        assertEquals(stub.eduYear, ctx.studResponse.eduYear)
+        assertEquals(stub.specialityId, ctx.studResponse.specialityId)
+        assertEquals(stub.facultyId, ctx.studResponse.facultyId)
+        assertEquals(stub.groupNum, ctx.studResponse.groupNum)
     }
 
     @Test
     fun badId() = runTest {
         val ctx = ContContext(
-            command = ContCommand.READ,
+            command = ContCommand.DELETE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.BAD_ID,
@@ -58,7 +57,7 @@ class StudentReadStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = ContContext(
-            command = ContCommand.READ,
+            command = ContCommand.DELETE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.DB_ERROR,
@@ -74,7 +73,7 @@ class StudentReadStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = ContContext(
-            command = ContCommand.READ,
+            command = ContCommand.DELETE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.BAD_FIO,

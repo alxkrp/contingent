@@ -1,48 +1,54 @@
-package ru.ak.contingent.biz
+package ru.ak.contingent.biz.stub
 
 import kotlinx.coroutines.test.runTest
+import ru.ak.contingent.biz.ContStudentProcessor
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.models.*
 import ru.ak.contingent.common.stubs.ContStubs
 import ru.ak.contingent.stubs.ContStudentStub
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.fail
 
-class StudentSearchStubTest {
+class StudentReadStubTest {
 
     private val processor = ContStudentProcessor()
-    val filter = ContStudentFilter(searchString = "Иванов")
+    val id = ContStudentId(777)
 
     @Test
-    fun search() = runTest {
+    fun read() = runTest {
 
         val ctx = ContContext(
-            command = ContCommand.SEARCH,
+            command = ContCommand.READ,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.SUCCESS,
-            studFilterRequest = filter,
+            studRequest = ContStudent(
+                id = id,
+            ),
         )
+
         processor.exec(ctx)
-        assertTrue(ctx.studsResponse.size > 1)
-        val first = ctx.studsResponse.firstOrNull() ?: fail("Empty response list")
-        assertTrue(first.fio.contains(filter.searchString))
+
         with (ContStudentStub.get()) {
-            assertEquals(sex, first.sex)
-            assertEquals(semester, first.semester)
+            assertEquals(id, ctx.studResponse.id)
+            assertEquals(fio, ctx.studResponse.fio)
+            assertEquals(sex, ctx.studResponse.sex)
+            assertEquals(semester, ctx.studResponse.semester)
+            assertEquals(eduYear, ctx.studResponse.eduYear)
+            assertEquals(specialityId, ctx.studResponse.specialityId)
+            assertEquals(facultyId, ctx.studResponse.facultyId)
+            assertEquals(groupNum, ctx.studResponse.groupNum)
         }
     }
 
     @Test
     fun badId() = runTest {
         val ctx = ContContext(
-            command = ContCommand.SEARCH,
+            command = ContCommand.READ,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.BAD_ID,
-            studFilterRequest = filter,
+            studRequest = ContStudent(),
         )
         processor.exec(ctx)
         assertEquals(ContStudent(), ctx.studResponse)
@@ -53,11 +59,13 @@ class StudentSearchStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = ContContext(
-            command = ContCommand.SEARCH,
+            command = ContCommand.READ,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.DB_ERROR,
-            studFilterRequest = filter,
+            studRequest = ContStudent(
+                id = id,
+            ),
         )
         processor.exec(ctx)
         assertEquals(ContStudent(), ctx.studResponse)
@@ -67,11 +75,13 @@ class StudentSearchStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = ContContext(
-            command = ContCommand.SEARCH,
+            command = ContCommand.READ,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.BAD_FIO,
-            studFilterRequest = filter,
+            studRequest = ContStudent(
+                id = id,
+            ),
         )
         processor.exec(ctx)
         assertEquals(ContStudent(), ctx.studResponse)

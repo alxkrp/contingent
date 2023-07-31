@@ -1,14 +1,14 @@
-package ru.ak.contingent.biz
+package ru.ak.contingent.biz.stub
 
 import kotlinx.coroutines.test.runTest
+import ru.ak.contingent.biz.ContStudentProcessor
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.models.*
 import ru.ak.contingent.common.stubs.ContStubs
-import ru.ak.contingent.stubs.ContStudentStub
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StudentCreateStubTest {
+class StudentUpdateStubTest {
 
     private val processor = ContStudentProcessor()
     val id = ContStudentId(777)
@@ -24,7 +24,7 @@ class StudentCreateStubTest {
     fun create() = runTest {
 
         val ctx = ContContext(
-            command = ContCommand.CREATE,
+            command = ContCommand.UPDATE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.SUCCESS,
@@ -42,7 +42,7 @@ class StudentCreateStubTest {
 
         processor.exec(ctx)
 
-        assertEquals(ContStudentStub.get().id, ctx.studResponse.id)
+        assertEquals(id, ctx.studResponse.id)
         assertEquals(fio, ctx.studResponse.fio)
         assertEquals(sex, ctx.studResponse.sex)
         assertEquals(semester, ctx.studResponse.semester)
@@ -53,9 +53,26 @@ class StudentCreateStubTest {
     }
 
     @Test
+    fun badId() = runTest {
+        val ctx = ContContext(
+            command = ContCommand.UPDATE,
+            state = ContState.NONE,
+            workMode = ContWorkMode.STUB,
+            stubCase = ContStubs.BAD_ID,
+            studRequest = ContStudent(),
+        )
+
+        processor.exec(ctx)
+
+        assertEquals(ContStudent(), ctx.studResponse)
+        assertEquals("id", ctx.errors.firstOrNull()?.field)
+        assertEquals("validation", ctx.errors.firstOrNull()?.group)
+    }
+
+    @Test
     fun badFio() = runTest {
         val ctx = ContContext(
-            command = ContCommand.CREATE,
+            command = ContCommand.UPDATE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.BAD_FIO,
@@ -77,11 +94,10 @@ class StudentCreateStubTest {
         assertEquals("fio", ctx.errors.firstOrNull()?.field)
         assertEquals("validation", ctx.errors.firstOrNull()?.group)
     }
-
     @Test
     fun badSex() = runTest {
         val ctx = ContContext(
-            command = ContCommand.CREATE,
+            command = ContCommand.UPDATE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.BAD_SEX,
@@ -107,13 +123,13 @@ class StudentCreateStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = ContContext(
-            command = ContCommand.CREATE,
+            command = ContCommand.UPDATE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
             stubCase = ContStubs.DB_ERROR,
             studRequest = ContStudent(
                 id = id,
-            )
+            ),
         )
 
         processor.exec(ctx)
@@ -125,25 +141,26 @@ class StudentCreateStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = ContContext(
-            command = ContCommand.CREATE,
+            command = ContCommand.UPDATE,
             state = ContState.NONE,
             workMode = ContWorkMode.STUB,
-            stubCase = ContStubs.BAD_ID,
+            stubCase = ContStubs.BAD_SEARCH_STRING,
             studRequest = ContStudent(
                 id = id,
-                fio = fio,
-                sex = sex,
+                fio = "",
+                sex = ContStudentSex.NONE,
                 semester = semester,
                 eduYear = eduYear,
                 specialityId = specialityId,
                 facultyId = facultyId,
                 groupNum = groupNum,
-            )
+            ),
         )
+
         processor.exec(ctx)
 
         assertEquals(ContStudent(), ctx.studResponse)
         assertEquals("stub", ctx.errors.firstOrNull()?.field)
         assertEquals("validation", ctx.errors.firstOrNull()?.group)
     }
- }
+}
