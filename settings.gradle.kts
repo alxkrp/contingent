@@ -2,6 +2,7 @@ rootProject.name = "Контингент"
 
 //include("m1l1-hello")
 include("contingent-api")
+include("contingent-api-log")
 include("contingent-common")
 include("contingent-mappers")
 include("contingent-biz")
@@ -12,6 +13,7 @@ include("contingent-app-spring")
 include("contingent-app-rabbit")
 
 include("contingent-lib-cor")
+include("contingent-lib-logging")
 
 
 pluginManagement {

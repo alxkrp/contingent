@@ -17,6 +17,10 @@ fun ICorChainDsl<ContContext>.stubCreateSuccess(title: String) = processor {
             studRequest.fio.takeIf { it.isNotBlank() }?.also { this.fio = it }
             studRequest.sex.takeIf { it != ContStudentSex.NONE }?.also { this.sex = it }
             studRequest.semester.takeIf { it != 0 }?.also { this.semester = it }
+            studRequest.eduYear.takeIf { it != 0 }?.also { this.eduYear = it }
+            studRequest.specialityId.takeIf { it != 0 }?.also { this.specialityId = it }
+            studRequest.facultyId.takeIf { it != 0 }?.also { this.facultyId = it }
+            studRequest.groupNum.takeIf { it.isNotBlank() }?.also { this.groupNum = it }
         }
         studResponse = stub
     }

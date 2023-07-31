@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.serialization")
+    id("com.bmuschko.docker-spring-boot-application")
 }
 
 dependencies {
@@ -33,6 +34,10 @@ dependencies {
     // biz
     implementation(project(":contingent-biz"))
 
+    // other
+    implementation(project(":contingent-lib-logging"))
+    implementation(project(":contingent-api-log"))
+
     // tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
@@ -50,4 +55,13 @@ tasks {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+docker {
+    springBootApplication {
+        baseImage.set("openjdk:17")
+        ports.set(listOf(8080))
+        images.set(setOf("${project.name}:latest"))
+        jvmArgs.set(listOf("-XX:+UseContainerSupport"))
+    }
 }

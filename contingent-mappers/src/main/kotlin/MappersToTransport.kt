@@ -16,35 +16,35 @@ fun ContContext.toTransportStudent(): IResponse = when (val cmd = command) {
 
 fun ContContext.toTransportCreate() = StudentCreateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportRead() = StudentReadResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportUpdate() = StudentUpdateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportDelete() = StudentDeleteResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportSearch() = StudentSearchResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     students = studsResponse.toTransportStudent()
 )
