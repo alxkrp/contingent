@@ -49,8 +49,3 @@ docker {
     }
 
 }
-
-
-tasks.test {
-    useJUnitPlatform()
-}
