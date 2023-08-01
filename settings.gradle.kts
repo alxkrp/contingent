@@ -37,5 +37,6 @@ pluginManagement {
 
         id("com.bmuschko.docker-java-application") version bmuschkoVersion apply false
         id("com.bmuschko.docker-spring-boot-application") version bmuschkoVersion apply false
-        id("com.bmuschko.docker-remote-api") version bmuschkoVersion apply false    }
+        id("com.bmuschko.docker-remote-api") version bmuschkoVersion apply false
+    }
 }
