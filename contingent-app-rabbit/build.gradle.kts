@@ -33,7 +33,7 @@ dependencies {
     implementation(project(":contingent-biz"))
 
     testImplementation("org.testcontainers:rabbitmq:$testContainersVersion")
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
     testImplementation(project(":contingent-stubs"))
 }
 
@@ -48,9 +48,4 @@ docker {
         jvmArgs.set(listOf("-XX:+UseContainerSupport"))
     }
 
-}
-
-
-tasks.test {
-    useJUnitPlatform()
 }

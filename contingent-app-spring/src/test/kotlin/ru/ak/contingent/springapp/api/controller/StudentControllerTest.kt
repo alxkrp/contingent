@@ -1,30 +1,39 @@
 package ru.ak.contingent.springapp.api.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
+import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.reactive.function.BodyInserters
 import ru.ak.contingent.api.models.*
+import ru.ak.contingent.biz.ContStudentProcessor
 import ru.ak.contingent.common.ContContext
+import ru.ak.contingent.logging.ContLoggerProvider
 import ru.ak.contingent.mappers.*
-import ru.ak.contingent.springapp.service.ContStudentBlockingProcessor
+import ru.ak.contingent.springapp.config.ContAppSettings
 
 @WebMvcTest(StudentController::class)
 internal class StudentControllerTest {
     @Autowired
-    private lateinit var mvc: MockMvc
+    private lateinit var webClient: WebTestClient
 
-    @Autowired
-    private lateinit var mapper: ObjectMapper
+    @MockkBean(relaxUnitFun = true)
+    private lateinit var appSettings: ContAppSettings
 
-    @MockBean
-    private lateinit var processor: ContStudentBlockingProcessor
+    private val processor = mockk<ContStudentProcessor>(relaxUnitFun = true)
+
+    @BeforeEach
+    fun beforeEach() {
+        every { appSettings.processor } returns processor
+        every { appSettings.logger } returns ContLoggerProvider()
+    }
 
     @Test
     fun createStudent() = testStubStudent(
@@ -61,20 +70,23 @@ internal class StudentControllerTest {
         ContContext().toTransportSearch()
     )
 
-    private fun <Req: Any, Res: Any> testStubStudent(
+    private inline fun <Req: Any, reified Res: Any> testStubStudent(
         url: String,
         requestObj: Req,
         responseObj: Res,
     ) {
-        val request = mapper.writeValueAsString(requestObj)
-        val response = mapper.writeValueAsString(responseObj)
-
-        mvc.perform(
-            post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-        )
-            .andExpect(status().isOk)
-            .andExpect(content().json(response))
+        webClient
+            .post()
+            .uri(url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(requestObj))
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(Res::class.java)
+            .value {
+                println("RESPONSE: $it")
+                Assertions.assertThat(it).isEqualTo(responseObj)
+            }
+        coVerify { processor.exec(any()) }
     }
 }

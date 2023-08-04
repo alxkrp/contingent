@@ -16,6 +16,13 @@ data class ContContext(
     var timeStart: Instant = Instant.NONE,
     var studRequest: ContStudent = ContStudent(),
     var studFilterRequest: ContStudentFilter = ContStudentFilter(),
+
+    var studValidating: ContStudent = ContStudent(),
+    var studFilterValidating: ContStudentFilter = ContStudentFilter(),
+
+    var studValidated: ContStudent = ContStudent(),
+    var studFilterValidated: ContStudentFilter = ContStudentFilter(),
+
     var studResponse: ContStudent = ContStudent(),
     val studsResponse: MutableList<ContStudent> = mutableListOf(),
 )

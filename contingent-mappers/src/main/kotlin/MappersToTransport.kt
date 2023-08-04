@@ -15,36 +15,41 @@ fun ContContext.toTransportStudent(): IResponse = when (val cmd = command) {
 }
 
 fun ContContext.toTransportCreate() = StudentCreateResponse(
+    responseType = "create",
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportRead() = StudentReadResponse(
+    responseType = "read",
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportUpdate() = StudentUpdateResponse(
+    responseType = "update",
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportDelete() = StudentDeleteResponse(
+    responseType = "delete",
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     student = studResponse.toTransportStudent()
 )
 
 fun ContContext.toTransportSearch() = StudentSearchResponse(
+    responseType = "search",
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ContState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ContState.FINISHING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     students = studsResponse.toTransportStudent()
 )

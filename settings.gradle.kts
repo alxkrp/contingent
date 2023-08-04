@@ -2,6 +2,7 @@ rootProject.name = "Контингент"
 
 //include("m1l1-hello")
 include("contingent-api")
+include("contingent-api-log")
 include("contingent-common")
 include("contingent-mappers")
 include("contingent-biz")
@@ -10,6 +11,9 @@ include("contingent-stubs")
 include("contingent-app-spring")
 
 include("contingent-app-rabbit")
+
+include("contingent-lib-cor")
+include("contingent-lib-logging")
 
 
 pluginManagement {
@@ -33,5 +37,6 @@ pluginManagement {
 
         id("com.bmuschko.docker-java-application") version bmuschkoVersion apply false
         id("com.bmuschko.docker-spring-boot-application") version bmuschkoVersion apply false
-        id("com.bmuschko.docker-remote-api") version bmuschkoVersion apply false    }
+        id("com.bmuschko.docker-remote-api") version bmuschkoVersion apply false
+    }
 }
