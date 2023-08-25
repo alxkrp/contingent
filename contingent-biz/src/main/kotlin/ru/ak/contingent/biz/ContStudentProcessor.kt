@@ -9,7 +9,6 @@ import ru.ak.contingent.common.models.ContCommand
 import ru.ak.contingent.common.models.ContStudentId
 import ru.ak.contingent.cor.processor
 import ru.ak.contingent.cor.rootChain
-import ru.otus.otuskotlin.marketplace.biz.validation.validateFioNotEmpty
 
 class ContStudentProcessor {
     suspend fun exec(ctx: ContContext) = BusinessChain.exec(ctx)

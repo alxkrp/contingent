@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.biz.validation
+package ru.ak.contingent.biz.validation
 
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.helpers.errorValidation

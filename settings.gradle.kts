@@ -15,6 +15,10 @@ include("contingent-app-rabbit")
 include("contingent-lib-cor")
 include("contingent-lib-logging")
 
+include("contingent-repo-stubs")
+include("contingent-repo-tests")
+include("contingent-repo-in-memory")
+//include("contingent-repo-postgresql")
 
 pluginManagement {
     val kotlinVersion: String by settings

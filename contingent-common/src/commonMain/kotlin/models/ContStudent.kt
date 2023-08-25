@@ -9,4 +9,9 @@ data class ContStudent(
     var specialityId: Int = 0,
     var facultyId: Int = 0,
     var groupNum: String = "",
-)
+    var lock: ContStudentLock = ContStudentLock.NONE,
+) {
+    companion object {
+        val NONE = ContStudent()
+    }
+}

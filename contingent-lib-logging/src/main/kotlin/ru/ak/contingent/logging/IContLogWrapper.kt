@@ -1,7 +1,6 @@
 package ru.ak.contingent.logging
 
 import kotlinx.datetime.Clock
-import kotlin.time.ExperimentalTime
 import kotlin.time.measureTimedValue
 
 @Suppress("unused")
@@ -42,7 +41,6 @@ interface IContLogWrapper {
     /**
      * Функция обертка для выполнения прикладного кода с логированием перед выполнением и после
      */
-    @OptIn(ExperimentalTime::class)
     suspend fun <T> doWithLogging(
         id: String = "",
         level: LogLevel = LogLevel.INFO,
