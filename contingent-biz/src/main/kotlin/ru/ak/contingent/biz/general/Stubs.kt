@@ -1,4 +1,4 @@
-package ru.ak.contingent.biz.groups
+package ru.ak.contingent.biz.general
 
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.models.ContState

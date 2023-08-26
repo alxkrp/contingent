@@ -5,7 +5,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: info,env
 
 spring:
   jackson:
@@ -18,3 +18,13 @@ springdoc:
     urls:
       - name: student
         url: spec-student.yaml
+
+prod-repository: ${PROD_REPOSITORY:test}
+
+sql:
+  url: ${SQL_URL:jdbc:postgresql://localhost:5432/contingent}
+  user: ${SQL_USER:postgres}
+  password: ${SQL_PASSWORD:contingent-pass}
+  schema: ${SQL_SCHEMA:contingent}
+  drop-database: ${SQL_DROP_DATABASE:false}
+  fast-migration: ${SQL_FAST_MIGRATION:true}

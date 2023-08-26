@@ -42,6 +42,25 @@ fun errorValidation(
     level = level,
 )
 
+fun errorAdministration(
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    field: String = "",
+    violationCode: String,
+    description: String,
+    exception: Exception? = null,
+    level: ContError.Level = ContError.Level.ERROR,
+) = ContError(
+    field = field,
+    code = "administration-$violationCode",
+    group = "administration",
+    message = "Microservice management error: $description",
+    level = level,
+    exception = exception,
+)
+
 fun errorRepoConcurrency(
     expectedLock: ContStudentLock,
     actualLock: ContStudentLock?,

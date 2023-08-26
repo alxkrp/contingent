@@ -1,6 +1,8 @@
 rootProject.name = "Контингент"
 
 //include("m1l1-hello")
+include("contingent-acceptance")
+
 include("contingent-api")
 include("contingent-api-log")
 include("contingent-common")
@@ -18,7 +20,7 @@ include("contingent-lib-logging")
 include("contingent-repo-stubs")
 include("contingent-repo-tests")
 include("contingent-repo-in-memory")
-//include("contingent-repo-postgresql")
+include("contingent-repo-postgresql")
 
 pluginManagement {
     val kotlinVersion: String by settings

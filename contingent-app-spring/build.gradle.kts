@@ -34,6 +34,11 @@ dependencies {
     // biz
     implementation(project(":contingent-biz"))
 
+    // Repo
+    implementation(project(":contingent-repo-stubs"))
+    implementation(project(":contingent-repo-in-memory"))
+    implementation(project(":contingent-repo-postgresql"))
+
     // other
     implementation(project(":contingent-lib-logging"))
     implementation(project(":contingent-api-log"))

@@ -1,21 +1,24 @@
 package ru.ak.contingent.biz
 
-import ru.ak.contingent.biz.groups.operation
-import ru.ak.contingent.biz.groups.stubs
+import ru.ak.contingent.biz.general.initRepo
+import ru.ak.contingent.biz.general.operation
+import ru.ak.contingent.biz.general.stubs
 import ru.ak.contingent.biz.processors.*
 import ru.ak.contingent.biz.validation.*
 import ru.ak.contingent.common.ContContext
+import ru.ak.contingent.common.ContCorSettings
 import ru.ak.contingent.common.models.ContCommand
 import ru.ak.contingent.common.models.ContStudentId
 import ru.ak.contingent.cor.processor
 import ru.ak.contingent.cor.rootChain
 
-class ContStudentProcessor {
+class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
     suspend fun exec(ctx: ContContext) = BusinessChain.exec(ctx)
 
     companion object {
         private val BusinessChain = rootChain<ContContext> {
             initStatus("Инициализация статуса")
+            initRepo("Инициализация репозитория")
 
             operation("Создание студента", ContCommand.CREATE) {
                 stubs("Обработка стабов") {
