@@ -32,5 +32,5 @@ data class ContContext(
     var studFilterValidated: ContStudentFilter = ContStudentFilter(),
 
     var studResponse: ContStudent = ContStudent(),
-    val studsResponse: MutableList<ContStudent> = mutableListOf(),
+    var studsResponse: MutableList<ContStudent> = mutableListOf(),
 )

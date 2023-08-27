@@ -3,7 +3,6 @@ package ru.ak.contingent.blackbox.test
 import io.kotest.assertions.asClue
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import ru.ak.contingent.api.models.StudentSearchFilter
 import ru.ak.contingent.api.models.StudentUpdateObject

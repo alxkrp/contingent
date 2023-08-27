@@ -11,7 +11,7 @@ import ru.ak.contingent.cor.processor
 fun ICorChainDsl<ContContext>.initRepo(title: String) = processor {
     this.title = title
     description = """
-        Вычисление основного рабочего репозитория в зависимости от зпрошенного режима работы        
+        Вычисление основного рабочего репозитория в зависимости от запрошенного режима работы        
     """.trimIndent()
     handle {
         studRepo = when {

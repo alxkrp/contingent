@@ -19,7 +19,7 @@ class StudRepoInMemory(
     initObjects: List<ContStudent> = emptyList(),
     ttl: Duration = 2.minutes,
     val randomUuid: () -> String = { uuid4().toString() },
-    val ranfomInt: () ->Int = { Random.nextInt(1, 1000000)},
+    val randomInt: () -> Int = { Random.nextInt(1, 1000000)},
 ) : IStudRepository {
 
     private val cache = Cache.Builder<String, StudentEntity>()
@@ -33,8 +33,8 @@ class StudRepoInMemory(
         }
     }
 
-    private fun save(ad: ContStudent) {
-        val entity = StudentEntity(ad)
+    private fun save(student: ContStudent) {
+        val entity = StudentEntity(student)
         if (entity.id == null) {
             return
         }
@@ -42,7 +42,7 @@ class StudRepoInMemory(
     }
 
     override suspend fun createStud(rq: DbStudRequest): DbStudResponse {
-        val key = ranfomInt()
+        val key = randomInt()
         val student = rq.stud.copy(id = ContStudentId(key), lock = ContStudentLock(randomUuid()))
         val entity = StudentEntity(student)
         cache.put(key.toString(), entity)
@@ -66,22 +66,22 @@ class StudRepoInMemory(
     override suspend fun updateStud(rq: DbStudRequest): DbStudResponse {
         val key = rq.stud.id.takeIf { it != ContStudentId.NONE }?.asInt().toString() ?: return resultErrorEmptyId
         val oldLock = rq.stud.lock.takeIf { it != ContStudentLock.NONE }?.asString() ?: return resultErrorEmptyLock
-        val newAd = rq.stud.copy(lock = ContStudentLock(randomUuid()))
-        val entity = StudentEntity(newAd)
+        val newStudent = rq.stud.copy(lock = ContStudentLock(randomUuid()))
+        val entity = StudentEntity(newStudent)
         return mutex.withLock {
-            val oldAd = cache.get(key)
+            val oldStudent = cache.get(key)
             when {
-                oldAd == null -> resultErrorNotFound
-                oldAd.lock != oldLock -> DbStudResponse(
-                    data = oldAd.toInternal(),
+                oldStudent == null -> resultErrorNotFound
+                oldStudent.lock != oldLock -> DbStudResponse(
+                    data = oldStudent.toInternal(),
                     isSuccess = false,
-                    errors = listOf(errorRepoConcurrency(ContStudentLock(oldLock), oldAd.lock?.let { ContStudentLock(it) }))
+                    errors = listOf(errorRepoConcurrency(ContStudentLock(oldLock), oldStudent.lock?.let { ContStudentLock(it) }))
                 )
 
                 else -> {
                     cache.put(key, entity)
                     DbStudResponse(
-                        data = newAd,
+                        data = newStudent,
                         isSuccess = true,
                     )
                 }
@@ -93,19 +93,19 @@ class StudRepoInMemory(
         val key = rq.id.takeIf { it != ContStudentId.NONE }?.asInt().toString() ?: return resultErrorEmptyId
         val oldLock = rq.lock.takeIf { it != ContStudentLock.NONE }?.asString() ?: return resultErrorEmptyLock
         return mutex.withLock {
-            val oldAd = cache.get(key)
+            val oldStudent = cache.get(key)
             when {
-                oldAd == null -> resultErrorNotFound
-                oldAd.lock != oldLock -> DbStudResponse(
-                    data = oldAd.toInternal(),
+                oldStudent == null -> resultErrorNotFound
+                oldStudent.lock != oldLock -> DbStudResponse(
+                    data = oldStudent.toInternal(),
                     isSuccess = false,
-                    errors = listOf(errorRepoConcurrency(ContStudentLock(oldLock), oldAd.lock?.let { ContStudentLock(it) }))
+                    errors = listOf(errorRepoConcurrency(ContStudentLock(oldLock), oldStudent.lock?.let { ContStudentLock(it) }))
                 )
 
                 else -> {
                     cache.invalidate(key)
                     DbStudResponse(
-                        data = oldAd.toInternal(),
+                        data = oldStudent.toInternal(),
                         isSuccess = true,
                     )
                 }
@@ -114,7 +114,7 @@ class StudRepoInMemory(
     }
 
     /**
-     * Поиск объявлений по фильтру
+     * Поиск студентов по фильтру
      * Если в фильтре не установлен какой-либо из параметров - по нему фильтрация не идет
      */
     override suspend fun searchStud(rq: DbStudFilterRequest): DbStudsResponse {
