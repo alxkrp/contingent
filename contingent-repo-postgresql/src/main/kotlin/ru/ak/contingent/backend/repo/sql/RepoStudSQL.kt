@@ -16,7 +16,7 @@ class RepoStudSQL(
     properties: SqlProperties,
     initObjects: Collection<ContStudent> = emptyList(),
     val randomUuid: () -> String = { uuid4().toString() },
-    val randomInt: () ->Int = { Random.nextInt(1, 1000000)},
+    val randomInt: () -> Int = { Random.nextInt(1, 1000000)},
 ) : IStudRepository {
 
     init {

@@ -15,12 +15,18 @@ suspend fun Client.updateStudent(id: Int?, lock: String?, student: StudentUpdate
         it.student?.apply {
             if (student.fio != null)
                 fio shouldBe student.fio
-//            if (ad.description != null)
-//                description shouldBe ad.description
-//            if (ad.adType != null)
-//                adType shouldBe ad.adType
-//            if (ad.visibility != null)
-//                visibility shouldBe ad.visibility
+            if (student.sex != null)
+                sex shouldBe student.sex
+            if (student.semester != null)
+                semester shouldBe student.semester
+            if (student.eduYear != null)
+                eduYear shouldBe student.eduYear
+            if (student.specialityId != null)
+                specialityId shouldBe student.specialityId
+            if (student.facultyId != null)
+                facultyId shouldBe student.facultyId
+            if (student.groupNum != null)
+                groupNum shouldBe student.groupNum
         }
         it.student!!
     }

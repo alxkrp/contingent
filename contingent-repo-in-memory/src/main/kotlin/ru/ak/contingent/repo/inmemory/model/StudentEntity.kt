@@ -20,19 +20,23 @@ data class StudentEntity(
         id = model.id.asInt().takeIf { it != null },
         fio = model.fio.takeIf { it.isNotBlank() },
         sex = model.sex.takeIf { it != ContStudentSex.NONE }?.name,
-//        ownerId = model.ownerId.asString().takeIf { it.isNotBlank() },
-//        adType = model.adType.takeIf { it != MkplDealSide.NONE }?.name,
-//        visibility = model.visibility.takeIf { it != MkplVisibility.NONE }?.name,
+        semester = model.semester.takeIf { it > 0 },
+        eduYear = model.eduYear.takeIf { it > 0 },
+        specialityId = model.specialityId.takeIf { it > 0 },
+        facultyId = model.facultyId.takeIf { it > 0 },
+        groupNum = model.groupNum.takeIf { it.isNotBlank() },
         lock = model.lock.asString().takeIf { it.isNotBlank() }
     )
 
     fun toInternal() = ContStudent(
         id = id?.let { ContStudentId(it) }?: ContStudentId.NONE,
         fio = fio?: "",
-//        description = description?: "",
-//        ownerId = ownerId?.let { MkplUserId(it) }?: MkplUserId.NONE,
-//        adType = adType?.let { MkplDealSide.valueOf(it) }?: MkplDealSide.NONE,
-//        visibility = visibility?.let { MkplVisibility.valueOf(it) }?: MkplVisibility.NONE,
+        sex = sex?.let{ ContStudentSex.valueOf(it) }?: ContStudentSex.NONE,
+        semester = semester?: -1,
+        eduYear = eduYear?: -1,
+        specialityId = specialityId?: -1,
+        facultyId = facultyId?: -1,
+        groupNum = groupNum?: "",
         lock = lock?.let { ContStudentLock(it) } ?: ContStudentLock.NONE,
     )
 }

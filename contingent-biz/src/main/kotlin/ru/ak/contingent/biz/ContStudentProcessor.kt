@@ -12,6 +12,7 @@ import ru.ak.contingent.common.ContCorSettings
 import ru.ak.contingent.common.models.ContCommand
 import ru.ak.contingent.common.models.ContState
 import ru.ak.contingent.common.models.ContStudentId
+import ru.ak.contingent.common.models.ContStudentLock
 import ru.ak.contingent.cor.chain
 import ru.ak.contingent.cor.processor
 import ru.ak.contingent.cor.rootChain
@@ -91,7 +92,7 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
 
                 validation {
                     processor("Копируем поля в studValidating") { studValidating = studRequest.copy() }
-                    processor("Очистка id") { studValidating.id = ContStudentId.NONE }
+                    processor("Очистка lock") { studValidating.lock = ContStudentLock(studValidating.lock.asString().trim()) }
                     processor("Очистка ФИО") { studValidating.fio = studValidating.fio.trim() }
                     validateIdProperlyValue("Проверка значения id")
                     validateFioNotEmpty("Проверка, что ФИО не пусто")
@@ -119,7 +120,7 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
 
                 validation {
                     processor("Копируем поля в studValidating") { studValidating = studRequest.copy() }
-                    processor("Очистка id") { studValidating.id = ContStudentId(studValidating.id.asInt()) }
+                    processor("Очистка lock") { studValidating.lock = ContStudentLock(studValidating.lock.asString().trim()) }
                     validateIdProperlyValue("Проверка значения id")
 
                     finishStudValidation("Завершение процедуры валидации")
