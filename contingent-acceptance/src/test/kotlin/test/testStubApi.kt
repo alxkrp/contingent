@@ -33,28 +33,19 @@ fun FunSpec.testStubApi(client: Client, prefix: String = "") {
         test("Delete Student ok") {
             val created = client.createStudent()
             client.deleteStudent(created.id, created.lock)
-            client.readStudent(created.id) {
-                // TODO раскомментировать, когда будет реальный реп
-                // it should haveError("not-found")
-            }
+            client.readStudent(created.id)
         }
 
         test("Search Student ok") {
-            val created1 = client.createStudent(someCreateStudent.copy(fio = "Сидоров Сидор Сидорович"))
-            val created2 = client.createStudent(someCreateStudent.copy(fio = "Сидоров Сидор Петрович"))
+            client.createStudent(someCreateStudent.copy(fio = "Сидоров Сидор Сидорович"))
+            client.createStudent(someCreateStudent.copy(fio = "Сидоров Сидор Петрович"))
 
             withClue("Search Сидоров") {
-                val results = client.searchAd(search = StudentSearchFilter(searchString = "Сидоров"))
-                // TODO раскомментировать, когда будет реальный реп
-                // results shouldHaveSize 2
-                // results shouldExist { it.fio == "Сидоров Сидор Сидорович" }
-                // results shouldExist { it.fio == "Сидоров Сидор Петрович" }
+                client.searchAd(search = StudentSearchFilter(searchString = "Сидоров"))
             }
 
             withClue("Search Петр") {
                 client.searchAd(search = StudentSearchFilter(searchString = "Петр"))
-                // TODO раскомментировать, когда будет реальный реп
-                // .shouldExistInOrder({ it.fio == "Сидоров Сидор Петрович" })
             }
         }
     }

@@ -1,16 +1,16 @@
 package ru.ak.contingent.blackbox.test.action
 
-import ru.ak.contingent.api.models.ContingentDebug
-import ru.ak.contingent.api.models.ContingentRequestDebugMode
-import ru.ak.contingent.api.models.ContingentRequestDebugStubs
-import ru.ak.contingent.api.models.StudentCreateObject
+import ru.ak.contingent.api.models.*
 
 val debug = ContingentDebug(mode = ContingentRequestDebugMode.STUB, stub = ContingentRequestDebugStubs.SUCCESS)
 val prod = ContingentDebug(mode = ContingentRequestDebugMode.PROD)
 
 val someCreateStudent = StudentCreateObject(
     fio = "Иванов Иван Иванович",
-//    description = "Требуется болт 100x5 с шестигранной шляпкой",
-//    adType = DealSide.DEMAND,
-//    visibility = AdVisibility.PUBLIC
+    sex = Sex.M,
+    semester = 2,
+    eduYear = 2023,
+    specialityId = 3,
+    facultyId = 2,
+    groupNum = "102-л"
 )

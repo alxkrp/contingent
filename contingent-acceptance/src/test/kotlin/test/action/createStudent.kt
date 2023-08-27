@@ -14,9 +14,12 @@ suspend fun Client.createStudent(student: StudentCreateObject = someCreateStuden
         it.student shouldNotBe null
         it.student?.apply {
             fio shouldBe student.fio
-            //        description shouldBe ad.description
-            //        adType shouldBe ad.adType
-            //        visibility shouldBe ad.visibility
+            sex shouldBe student.sex
+            semester shouldBe student.semester
+            eduYear shouldBe student.eduYear
+            specialityId shouldBe student.specialityId
+            facultyId shouldBe student.facultyId
+            groupNum shouldBe student.groupNum
         }
         it.student!!
     }

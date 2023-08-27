@@ -52,7 +52,7 @@ val beValidId = Matcher<Int?> {
 
 val beValidLock = Matcher<String?> {
     MatcherResult(
-        true, // TODO заменить на it != null, когда заработают локи
+        it != null,
         { "lock should not be null" },
         { "lock should be null" },
     )

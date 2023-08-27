@@ -114,10 +114,7 @@ class RepoStudSQL(
                         add(StudentTable.sex eq rq.sex)
                     }
                     if (rq.fioFilter.isNotBlank()) {
-                        add(
-                            (StudentTable.fio like "%${rq.fioFilter}%")
-//                                or (StudentTable.description like "%${rq.titleFilter}%")
-                        )
+                        add((StudentTable.fio like "%${rq.fioFilter}%"))
                     }
                 }.reduce { a, b -> a and b }
             }

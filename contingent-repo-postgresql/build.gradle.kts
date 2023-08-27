@@ -7,8 +7,13 @@ dependencies {
     val postgresDriverVersion: String by project
     val kmpUUIDVersion: String by project
     val testContainersVersion: String by project
+    val logbackVersion: String by project
+    val kotlinLoggingJvmVersion: String by project
 
     implementation(kotlin("stdlib"))
+
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
     implementation(project(":contingent-common"))
 
