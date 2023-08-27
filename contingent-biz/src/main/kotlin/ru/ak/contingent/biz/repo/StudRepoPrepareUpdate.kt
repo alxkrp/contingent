@@ -13,9 +13,11 @@ fun ICorChainDsl<ContContext>.repoPrepareUpdate(title: String) = processor {
     handle {
         studRepoPrepare = studRepoRead.copy().apply {
             this.fio = studValidated.fio
-//            description = adValidated.description
-//            adType = adValidated.adType
-//            visibility = adValidated.visibility
+            this.sex = studValidated.sex
+            this.semester = studValidated.semester
+            this.specialityId = studValidated.specialityId
+            this.facultyId = studValidated.specialityId
+            this.groupNum = studValidated.groupNum
         }
     }
 }

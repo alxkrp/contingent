@@ -6,10 +6,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.ak.contingent.backend.repo.inmemory.model.StudentEntity
 import ru.ak.contingent.common.helpers.errorRepoConcurrency
-import ru.ak.contingent.common.models.ContError
-import ru.ak.contingent.common.models.ContStudent
-import ru.ak.contingent.common.models.ContStudentId
-import ru.ak.contingent.common.models.ContStudentLock
+import ru.ak.contingent.common.models.*
 import ru.ak.contingent.common.repo.*
 import kotlin.random.Random
 import kotlin.time.Duration
@@ -22,7 +19,7 @@ class StudRepoInMemory(
     val randomInt: () -> Int = { Random.nextInt(1, 1000000)},
 ) : IStudRepository {
 
-    private val cache = Cache.Builder<String, StudentEntity>()
+    private val cache = Cache.Builder<Int, StudentEntity>()
         .expireAfterWrite(ttl)
         .build()
     private val mutex: Mutex = Mutex()
@@ -38,14 +35,14 @@ class StudRepoInMemory(
         if (entity.id == null) {
             return
         }
-        cache.put(entity.id.toString(), entity)
+        cache.put(entity.id!!, entity)
     }
 
     override suspend fun createStud(rq: DbStudRequest): DbStudResponse {
         val key = randomInt()
         val student = rq.stud.copy(id = ContStudentId(key), lock = ContStudentLock(randomUuid()))
         val entity = StudentEntity(student)
-        cache.put(key.toString(), entity)
+        cache.put(key, entity)
         return DbStudResponse(
             data = student,
             isSuccess = true,
@@ -53,7 +50,7 @@ class StudRepoInMemory(
     }
 
     override suspend fun readStud(rq: DbStudIdRequest): DbStudResponse {
-        val key = rq.id.takeIf { it != ContStudentId.NONE }?.asInt().toString() ?: return resultErrorEmptyId
+        val key = rq.id.takeIf { it != ContStudentId.NONE }?.asInt() ?: return resultErrorEmptyId
         return cache.get(key)
             ?.let {
                 DbStudResponse(
@@ -64,7 +61,7 @@ class StudRepoInMemory(
     }
 
     override suspend fun updateStud(rq: DbStudRequest): DbStudResponse {
-        val key = rq.stud.id.takeIf { it != ContStudentId.NONE }?.asInt().toString() ?: return resultErrorEmptyId
+        val key = rq.stud.id.takeIf { it != ContStudentId.NONE }?.asInt() ?: return resultErrorEmptyId
         val oldLock = rq.stud.lock.takeIf { it != ContStudentLock.NONE }?.asString() ?: return resultErrorEmptyLock
         val newStudent = rq.stud.copy(lock = ContStudentLock(randomUuid()))
         val entity = StudentEntity(newStudent)
@@ -90,7 +87,7 @@ class StudRepoInMemory(
     }
 
     override suspend fun deleteStud(rq: DbStudIdRequest): DbStudResponse {
-        val key = rq.id.takeIf { it != ContStudentId.NONE }?.asInt().toString() ?: return resultErrorEmptyId
+        val key = rq.id.takeIf { it != ContStudentId.NONE }?.asInt() ?: return resultErrorEmptyId
         val oldLock = rq.lock.takeIf { it != ContStudentLock.NONE }?.asString() ?: return resultErrorEmptyLock
         return mutex.withLock {
             val oldStudent = cache.get(key)
@@ -119,22 +116,16 @@ class StudRepoInMemory(
      */
     override suspend fun searchStud(rq: DbStudFilterRequest): DbStudsResponse {
         val result = cache.asMap().asSequence()
-//            .filter { entry ->
-//                rq.ownerId.takeIf { it != MkplUserId.NONE }?.let {
-//                    it.asString() == entry.value.ownerId
-//                } ?: true
-//            }
-//            .filter { entry ->
-//                rq.dealSide.takeIf { it != MkplDealSide.NONE }?.let {
-//                    it.name == entry.value.adType
-//                } ?: true
-//            }
             .filter { entry ->
                 rq.fioFilter.takeIf { it.isNotBlank() }?.let {
                     entry.value.fio?.contains(it) ?: false
                 } ?: true
             }
-            .map { it.value.toInternal() }
+            .filter { entry ->
+                rq.sex.takeIf { it != ContStudentSex.NONE }?.let {
+                    it.name == entry.value.sex
+                } ?: true
+            }            .map { it.value.toInternal() }
             .toList()
         return DbStudsResponse(
             data = result,

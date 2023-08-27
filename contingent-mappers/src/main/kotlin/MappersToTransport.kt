@@ -74,6 +74,7 @@ private fun ContStudent.toTransportStudent(): StudentResponseObject = StudentRes
     specialityId = specialityId.takeIf { it != 0 },
     facultyId = facultyId.takeIf { it != 0 },
     groupNum = groupNum.takeIf { it.isNotBlank() },
+    lock = lock.takeIf { it != ContStudentLock.NONE }?.asString(),
 )
 
 private fun ContStudentSex.toTransportSex(): Sex? = when (this) {

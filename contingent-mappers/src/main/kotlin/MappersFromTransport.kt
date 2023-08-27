@@ -17,6 +17,8 @@ fun ContContext.fromTransport(request: IRequest) = when (request) {
 
 private fun Int?.toStudentId() = this?.let { ContStudentId(it) } ?: ContStudentId.NONE
 private fun Int?.toStudentWithId() = ContStudent(id = this.toStudentId())
+private fun String?.toStudentLock() = this?.let { ContStudentLock(it) } ?: ContStudentLock.NONE
+
 private fun IRequest?.requestId() = this?.requestId?.let { ContRequestId(it) } ?: ContRequestId.NONE
 
 private fun ContingentDebug?.transportToWorkMode(): ContWorkMode = when (this?.mode) {
@@ -66,9 +68,18 @@ fun ContContext.fromTransport(request: StudentUpdateRequest) {
 fun ContContext.fromTransport(request: StudentDeleteRequest) {
     command = ContCommand.DELETE
     requestId = request.requestId()
-    studRequest = request.student?.id.toStudentWithId()
+    studRequest = request.student.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+}
+
+private fun StudentDeleteObject?.toInternal(): ContStudent = if (this != null) {
+    ContStudent(
+        id = id.toStudentId(),
+        lock = lock.toStudentLock(),
+    )
+} else {
+    ContStudent.NONE
 }
 
 fun ContContext.fromTransport(request: StudentSearchRequest) {
@@ -108,4 +119,5 @@ private fun StudentUpdateObject.toInternal(): ContStudent = ContStudent(
     specialityId = this.specialityId ?: 0,
     facultyId = this.facultyId ?: 0,
     groupNum = this.groupNum ?: "",
+    lock = lock.toStudentLock()
 )

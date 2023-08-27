@@ -13,9 +13,9 @@ fun ICorChainDsl<ContContext>.repoCreate(title: String) = processor {
     handle {
         val request = DbStudRequest(studRepoPrepare)
         val result = studRepo.createStud(request)
-        val resultAd = result.data
-        if (result.isSuccess && resultAd != null) {
-            studRepoDone = resultAd
+        val resultStudent = result.data
+        if (result.isSuccess && resultStudent != null) {
+            studRepoDone = resultStudent
         } else {
             state = ContState.FAILING
             errors.addAll(result.errors)

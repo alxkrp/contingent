@@ -18,7 +18,7 @@ class StudentController(private val appSettings: ContAppSettings) {
     suspend fun readStudent(@RequestBody request: StudentReadRequest): StudentReadResponse =
         process(appSettings, request, logger, "student-read")
 
-    @RequestMapping("/update", method = [RequestMethod.POST])
+    @PostMapping("/update")
     suspend fun updateStudent(@RequestBody request: StudentUpdateRequest): StudentUpdateResponse =
         process(appSettings, request, logger, "student-update")
 

@@ -13,9 +13,9 @@ fun ICorChainDsl<ContContext>.repoRead(title: String) = processor {
     handle {
         val request = DbStudIdRequest(studValidated)
         val result = studRepo.readStud(request)
-        val resultAd = result.data
-        if (result.isSuccess && resultAd != null) {
-            studRepoRead = resultAd
+        val resultStudent = result.data
+        if (result.isSuccess && resultStudent != null) {
+            studRepoRead = resultStudent
         } else {
             state = ContState.FAILING
             errors.addAll(result.errors)

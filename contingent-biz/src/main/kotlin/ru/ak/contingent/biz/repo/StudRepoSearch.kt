@@ -16,9 +16,9 @@ fun ICorChainDsl<ContContext>.repoSearch(title: String) = processor {
             sex = studFilterValidated.sex,
         )
         val result = studRepo.searchStud(request)
-        val resultAds = result.data
-        if (result.isSuccess && resultAds != null) {
-            studsRepoDone = resultAds.toMutableList()
+        val resultStudents = result.data
+        if (result.isSuccess && resultStudents != null) {
+            studsRepoDone = resultStudents.toMutableList()
         } else {
             state = ContState.FAILING
             errors.addAll(result.errors)
