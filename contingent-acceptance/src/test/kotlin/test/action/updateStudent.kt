@@ -5,14 +5,11 @@ import io.kotest.assertions.withClue
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import ru.ak.contingent.api.models.StudentResponseObject
-import ru.ak.contingent.api.models.StudentUpdateObject
-import ru.ak.contingent.api.models.StudentUpdateRequest
-import ru.ak.contingent.api.models.StudentUpdateResponse
+import ru.ak.contingent.api.models.*
 import ru.ak.contingent.blackbox.fixture.client.Client
 
-suspend fun Client.updateStudent(id: Int?, lock: String?, student: StudentUpdateObject): StudentResponseObject =
-    updateStudent(id, lock, student) {
+suspend fun Client.updateStudent(id: Int?, lock: String?, student: StudentUpdateObject, mode: ContingentDebug = debug): StudentResponseObject =
+    updateStudent(id, lock, student, mode) {
         it should haveSuccessResult
         it.student shouldNotBe null
         it.student?.apply {
@@ -28,7 +25,7 @@ suspend fun Client.updateStudent(id: Int?, lock: String?, student: StudentUpdate
         it.student!!
     }
 
-suspend fun <T> Client.updateStudent(id: Int?, lock: String?, student: StudentUpdateObject, block: (StudentUpdateResponse) -> T): T =
+suspend fun <T> Client.updateStudent(id: Int?, lock: String?, student: StudentUpdateObject, mode: ContingentDebug = debug, block: (StudentUpdateResponse) -> T): T =
     withClue("updatedStudent: $id, lock: $lock, set: $student") {
         id should beValidId
         lock should beValidLock
@@ -36,7 +33,7 @@ suspend fun <T> Client.updateStudent(id: Int?, lock: String?, student: StudentUp
         val response = sendAndReceive(
             "student/update", StudentUpdateRequest(
                 requestType = "update",
-                debug = debug,
+                debug = mode,
                 student = student.copy(id = id, lock = lock)
             )
         ) as StudentUpdateResponse

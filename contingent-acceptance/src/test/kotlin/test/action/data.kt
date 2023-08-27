@@ -6,6 +6,7 @@ import ru.ak.contingent.api.models.ContingentRequestDebugStubs
 import ru.ak.contingent.api.models.StudentCreateObject
 
 val debug = ContingentDebug(mode = ContingentRequestDebugMode.STUB, stub = ContingentRequestDebugStubs.SUCCESS)
+val prod = ContingentDebug(mode = ContingentRequestDebugMode.PROD)
 
 val someCreateStudent = StudentCreateObject(
     fio = "Иванов Иван Иванович",

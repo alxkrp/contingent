@@ -16,7 +16,7 @@ class RepoStudSQL(
     properties: SqlProperties,
     initObjects: Collection<ContStudent> = emptyList(),
     val randomUuid: () -> String = { uuid4().toString() },
-    val ranfomInt: () ->Int = { Random.nextInt(1, 1000000)},
+    val randomInt: () ->Int = { Random.nextInt(1, 1000000)},
 ) : IStudRepository {
 
     init {
@@ -36,9 +36,9 @@ class RepoStudSQL(
         }
     }
 
-    private fun createStud(ad: ContStudent): ContStudent {
+    private fun createStud(student: ContStudent): ContStudent {
         val res = StudentTable.insert {
-            to(it, ad, ranfomInt, randomUuid)
+            to(it, student, randomInt, randomUuid)
         }
 
         return StudentTable.from(res)
@@ -93,14 +93,14 @@ class RepoStudSQL(
             StudentTable.update({
                 (StudentTable.id eq rq.stud.id.asInt()) and (StudentTable.lock eq rq.stud.lock.asString())
             }) {
-                to(it, rq.stud, ranfomInt, randomUuid)
+                to(it, rq.stud, randomInt, randomUuid)
             }
             read(rq.stud.id)
         }
 
     override suspend fun deleteStud(rq: DbStudIdRequest): DbStudResponse = update(rq.id, rq.lock) {
         StudentTable.deleteWhere {
-            (StudentTable.id eq rq.id.asInt()) and (StudentTable.lock eq rq.lock.asString())
+            (id eq rq.id.asInt()) and (lock eq rq.lock.asString())
         }
         DbStudResponse.success(it)
     }
