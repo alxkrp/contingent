@@ -17,10 +17,6 @@ class BizRepoUpdateTest {
     private val initAd = ContStudent(
         id = ContStudentId(123),
         fio = "abc",
-//        description = "abc",
-//        ownerId = userId,
-//        adType = MkplDealSide.DEMAND,
-//        visibility = MkplVisibility.VISIBLE_PUBLIC,
     )
     private val repo by lazy { StudRepositoryMock(
         invokeReadStudent = {
@@ -35,9 +31,6 @@ class BizRepoUpdateTest {
                 data = ContStudent(
                     id = ContStudentId(123),
                     fio = "xyz",
-//                    description = "xyz",
-//                    adType = MkplDealSide.DEMAND,
-//                    visibility = MkplVisibility.VISIBLE_TO_GROUP,
                 )
             )
         }
@@ -54,9 +47,6 @@ class BizRepoUpdateTest {
         val adToUpdate = ContStudent(
             id = ContStudentId(123),
             fio = "xyz",
-//            description = "xyz",
-//            adType = MkplDealSide.DEMAND,
-//            visibility = MkplVisibility.VISIBLE_TO_GROUP,
             lock = ContStudentLock("123-234-abc-ABC"),
         )
         val ctx = ContContext(
@@ -69,9 +59,6 @@ class BizRepoUpdateTest {
         assertEquals(ContState.FINISHING, ctx.state)
         assertEquals(adToUpdate.id, ctx.studResponse.id)
         assertEquals(adToUpdate.fio, ctx.studResponse.fio)
-//        assertEquals(adToUpdate.description, ctx.adResponse.description)
-//        assertEquals(adToUpdate.adType, ctx.adResponse.adType)
-//        assertEquals(adToUpdate.visibility, ctx.adResponse.visibility)
     }
 
     @Test

@@ -10,9 +10,9 @@ import ru.ak.contingent.common.models.ContStudentLock
 import ru.ak.contingent.common.models.ContStudentSex
 
 object StudentTable : Table("student") {
-    val id = integer("id")
+    val id = integer("id").autoIncrement()
     val fio = varchar("fio", 100)
-    val sex = enumeration("visibility", ContStudentSex::class)
+    val sex = enumeration("sex", ContStudentSex::class)
     val semester = integer("semester")
     val eduyear = integer("eduyear")
     val speciailityid = integer("speciailityid")
@@ -20,7 +20,7 @@ object StudentTable : Table("student") {
     val groupnum = varchar("groupnum", 30)
     val lock = varchar("lock", 50)
 
-    override val primaryKey = PrimaryKey(id)
+    override val primaryKey = PrimaryKey(id, name = "PK_student_id")
 
     fun from(res: InsertStatement<Number>) = ContStudent(
         id = ContStudentId(res[id].toInt()),
@@ -46,8 +46,7 @@ object StudentTable : Table("student") {
         lock = ContStudentLock(res[lock])
     )
 
-    fun to(it: UpdateBuilder<*>, student: ContStudent, randomId: () -> Int, randomUuid: () -> String) {
-        it[id] = student.id.takeIf { it != ContStudentId.NONE }?.asInt() ?: randomId()
+    fun to(it: UpdateBuilder<*>, student: ContStudent, randomUuid: () -> String) {
         it[fio] = student.fio
         it[sex] = student.sex
         it[semester] = student.semester

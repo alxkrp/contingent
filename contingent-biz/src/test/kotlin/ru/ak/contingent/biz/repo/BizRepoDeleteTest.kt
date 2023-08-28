@@ -18,10 +18,6 @@ class BizRepoDeleteTest {
     private val initStudent = ContStudent(
         id = ContStudentId(123),
         fio = "abc",
-//        description = "abc",
-//        ownerId = userId,
-//        adType = MkplDealSide.DEMAND,
-//        visibility = MkplVisibility.VISIBLE_PUBLIC,
         lock = ContStudentLock("123-234-abc-ABC"),
     )
     private val repo by lazy {
@@ -66,9 +62,6 @@ class BizRepoDeleteTest {
         assertTrue { ctx.errors.isEmpty() }
         assertEquals(initStudent.id, ctx.studResponse.id)
         assertEquals(initStudent.fio, ctx.studResponse.fio)
-//        assertEquals(initAd.description, ctx.studResponse.description)
-//        assertEquals(initAd.adType, ctx.studResponse.adType)
-//        assertEquals(initAd.visibility, ctx.studResponse.visibility)
     }
 
     @Test
