@@ -17,4 +17,7 @@ dependencies {
     implementation(kotlin("test-common"))
     implementation(kotlin("test-annotations-common"))
     implementation(kotlin("test-junit"))
+
+    implementation(project(":contingent-repo-tests"))
+    implementation(project(":contingent-repo-stubs"))
 }

@@ -27,7 +27,6 @@ dependencies {
     implementation(kotlin("test-annotations-common"))
     implementation(kotlin("test-junit"))
 
-//    languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
 /**

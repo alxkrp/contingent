@@ -16,6 +16,7 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
 
                 api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+                api(project(":contingent-lib-logging"))
             }
         }
         val commonTest by getting {

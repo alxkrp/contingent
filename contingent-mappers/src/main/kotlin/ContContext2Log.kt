@@ -8,7 +8,7 @@ import ru.ak.contingent.common.models.*
 fun ContContext.toLog(logId: String) = CommonLogModel(
     messageTime = Clock.System.now().toString(),
     logId = logId,
-    source = "ok-marketplace",
+    source = "contingent",
     student = toContLog(),
     errors = errors.map { it.toLog() },
 )

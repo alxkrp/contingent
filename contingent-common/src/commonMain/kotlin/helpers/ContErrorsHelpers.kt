@@ -1,8 +1,10 @@
 package ru.ak.contingent.common.helpers
 
 import ru.ak.contingent.common.ContContext
+import ru.ak.contingent.common.exceptions.RepoConcurrencyException
 import ru.ak.contingent.common.models.ContError
 import ru.ak.contingent.common.models.ContState
+import ru.ak.contingent.common.models.ContStudentLock
 
 fun Throwable.asContError(
     code: String = "unknown",
@@ -38,4 +40,46 @@ fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+fun errorAdministration(
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    field: String = "",
+    violationCode: String,
+    description: String,
+    exception: Exception? = null,
+    level: ContError.Level = ContError.Level.ERROR,
+) = ContError(
+    field = field,
+    code = "administration-$violationCode",
+    group = "administration",
+    message = "Microservice management error: $description",
+    level = level,
+    exception = exception,
+)
+
+fun errorRepoConcurrency(
+    expectedLock: ContStudentLock,
+    actualLock: ContStudentLock?,
+    exception: Exception? = null,
+) = ContError(
+    field = "lock",
+    code = "concurrency",
+    group = "repo",
+    message = "The object has been changed concurrently by another user or process",
+    exception = exception ?: RepoConcurrencyException(expectedLock, actualLock),
+)
+
+val errorNotFound = ContError(
+    field = "id",
+    message = "Not Found",
+    code = "not-found"
+)
+
+val errorEmptyId = ContError(
+    field = "id",
+    message = "Id must not be null or blank"
 )

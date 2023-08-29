@@ -20,7 +20,7 @@ object ContStudentStub {
 
     private fun contStud(base: ContStudent, id: Int, filter: String) = base.copy(
         id = ContStudentId(id),
-        fio = "$filter $id"
+        fio = "$filter $id",
     )
 
 }
