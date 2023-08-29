@@ -25,10 +25,10 @@ abstract class RepoStudSearchTest {
     companion object: BaseInitStuds("search") {
 
         override val initObjects: List<ContStudent> = listOf(
-            createInitTestModel(111, "Пупкин Сидор"),
-            createInitTestModel(222, "Иванов Иван"),
-            createInitTestModel(333, "Петров Роман"),
-            createInitTestModel(444, "Иванов Василий"),
+            createInitTestModel(1, "Пупкин Сидор"),
+            createInitTestModel(2, "Иванов Иван"),
+            createInitTestModel(3, "Петров Роман"),
+            createInitTestModel(4, "Иванов Василий"),
         )
     }
 }

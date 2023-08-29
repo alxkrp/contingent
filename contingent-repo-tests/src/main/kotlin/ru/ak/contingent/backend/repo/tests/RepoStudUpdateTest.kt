@@ -84,8 +84,8 @@ abstract class RepoStudUpdateTest {
 
     companion object : BaseInitStuds("update") {
         override val initObjects: List<ContStudent> = listOf(
-            createInitTestModel(111, "update"),
-            createInitTestModel(222, "updateConc"),
+            createInitTestModel(1, "update"),
+            createInitTestModel(2, "updateConc"),
         )
     }
 }

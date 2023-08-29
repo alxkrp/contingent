@@ -47,8 +47,8 @@ abstract class RepoStudDeleteTest {
 
     companion object : BaseInitStuds("delete") {
         override val initObjects: List<ContStudent> = listOf(
-            createInitTestModel(111, "delete"),
-            createInitTestModel(222, "deleteLock"),
+            createInitTestModel(1, "delete"),
+            createInitTestModel(2, "deleteLock"),
         )
     }
 }

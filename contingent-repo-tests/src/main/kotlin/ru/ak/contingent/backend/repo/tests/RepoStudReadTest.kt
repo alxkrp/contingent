@@ -32,7 +32,7 @@ abstract class RepoStudReadTest {
 
     companion object : BaseInitStuds("delete") {
         override val initObjects: List<ContStudent> = listOf(
-            createInitTestModel(111, "read")
+            createInitTestModel(1, "read")
         )
 
         val notFoundId = ContStudentId(-1)
