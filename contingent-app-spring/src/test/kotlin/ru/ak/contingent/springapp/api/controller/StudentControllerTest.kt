@@ -20,7 +20,6 @@ import ru.ak.contingent.logging.ContLoggerProvider
 import ru.ak.contingent.mappers.*
 import ru.ak.contingent.springapp.config.ContAppSettings
 
-
 @WebFluxTest(controllers = [StudentController::class], excludeAutoConfiguration = [ReactiveSecurityAutoConfiguration::class])
 internal class StudentControllerTest {
 

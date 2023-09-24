@@ -8,7 +8,6 @@ plugins {
 }
 
 dependencies {
-    val kotestVersion: String by project
     val springdocOpenapiUiVersion: String by project
     val coroutinesVersion: String by project
     val serializationVersion: String by project
