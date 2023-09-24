@@ -23,6 +23,7 @@ class RestClient(dockerCompose: DockerCompose) : Client {
             url(url)
             headers {
                 append(HttpHeaders.ContentType, ContentType.Application.Json)
+                append(HttpHeaders.Authorization,"Basic YWRtaW46cGFzc3dvcmQ=")
             }
             accept(ContentType.Application.Json)
             setBody(request)
