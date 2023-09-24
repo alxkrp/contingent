@@ -2,6 +2,8 @@ package ru.ak.contingent.common
 
 import kotlinx.datetime.Instant
 import ru.ak.contingent.common.models.*
+import ru.ak.contingent.common.permissions.ContPrincipalModel
+import ru.ak.contingent.common.permissions.ContUserPermissions
 import ru.ak.contingent.common.repo.IStudRepository
 import ru.ak.contingent.common.stubs.ContStubs
 
@@ -33,4 +35,8 @@ data class ContContext(
 
     var studResponse: ContStudent = ContStudent(),
     var studsResponse: MutableList<ContStudent> = mutableListOf(),
+
+    var principal: ContPrincipalModel = ContPrincipalModel.NONE,
+    val permissionsChain: MutableSet<ContUserPermissions> = mutableSetOf(),
+    var permitted: Boolean = false,
 )

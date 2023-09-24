@@ -14,6 +14,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-actuator") // info; refresh; springMvc output
     implementation("org.springframework.boot:spring-boot-starter-web") // Controller, Service, etc..
+    implementation("org.springframework.boot:spring-boot-starter-security") // Security
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdocOpenapiUiVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // from models to json and Vice versa
     implementation("org.jetbrains.kotlin:kotlin-reflect") // for spring-boot app
@@ -45,9 +46,12 @@ dependencies {
 
     // tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
     testImplementation("org.springframework.boot:spring-boot-starter-webflux") // Controller, Service, etc..
     testImplementation("com.ninja-squad:springmockk:3.0.1") // mockking beans
+    testImplementation("org.springframework.security:spring-security-test") // Security
+
+    // security
+
 }
 
 tasks {

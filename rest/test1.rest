@@ -1,0 +1,99 @@
+### Добавить студента
+POST http://localhost:8080/student/create
+Authorization: Basic admin password
+Content-Type: application/json
+
+{
+  "requestType": "create",
+  "requestId": "1111",
+  "debug": {
+    "mode": "PROD",
+    "stub": "success"
+  },
+  "student": {
+    "fio": "Иваанов Иван Иванович",
+    "sex": "M",
+    "semester": 3,
+    "eduYear": 2023,
+    "specialityId": 1,
+    "facultyId": 2,
+    "groupNum": "202-с"
+  }
+}
+
+### Получить студента по id
+POST http://localhost:8080/student/read
+Authorization: Basic user password
+Content-Type: application/json
+
+{
+  "requestType": "read",
+  "requestId": "2222",
+  "debug": {
+    "mode": "PROD",
+    "stub": "success"
+  },
+  "student": {
+    "id": 2
+  }
+}
+
+### Обновить студента
+POST http://localhost:8080/student/update
+Authorization: Basic admin password
+Content-Type: application/json
+
+{
+  "requestType": "update",
+  "requestId": "3333",
+  "debug": {
+    "mode": "PROD",
+    "stub": "success"
+  },
+  "student": {
+    "fio": "Петров Иван Иванович",
+    "sex": "M",
+    "semester": 3,
+    "eduYear": 2023,
+    "specialityId": 4,
+    "facultyId": 2,
+    "groupNum": "202-с",
+    "id": 3,
+    "lock": "?"
+  }
+}
+
+### Удалить студента
+POST http://localhost:8080/student/delete
+Authorization: Basic admin password
+Content-Type: application/json
+
+{
+  "requestType": "delete",
+  "requestId": "4444",
+  "debug": {
+    "mode": "PROD",
+    "stub": "success"
+  },
+  "student": {
+    "id": 3,
+    "lock": "9030fd1f-11de-486f-8ef3-7bed07815fd8"
+  }
+}
+
+### Поиск студентов
+POST http://localhost:8080/student/search
+Authorization: Basic user password
+Content-Type: application/json
+
+{
+  "requestType": "search",
+  "requestId": "5555",
+  "debug": {
+    "mode": "PROD",
+    "stub": "success"
+  },
+  "studentFilter": {
+    "searchString": ""
+  }
+}

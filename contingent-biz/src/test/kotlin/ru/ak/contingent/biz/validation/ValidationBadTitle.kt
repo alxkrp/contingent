@@ -2,6 +2,7 @@ package ru.ak.contingent.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import ru.ak.contingent.biz.ContStudentProcessor
+import ru.ak.contingent.biz.addTestPrincipal
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.models.*
 import ru.ak.contingent.stubs.ContStudentStub
@@ -21,6 +22,7 @@ fun validationFioCorrect(command: ContCommand, processor: ContStudentProcessor) 
             fio = "Иванов",
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(ContState.FAILING, ctx.state)
@@ -37,6 +39,7 @@ fun validationFioTrim(command: ContCommand, processor: ContStudentProcessor) = r
             fio = " \n\t Иванов \t\n ",
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(ContState.FAILING, ctx.state)
@@ -53,6 +56,7 @@ fun validationFioEmpty(command: ContCommand, processor: ContStudentProcessor) = 
             fio = "",
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(ContState.FAILING, ctx.state)
@@ -71,6 +75,7 @@ fun validationFioSymbols(command: ContCommand, processor: ContStudentProcessor) 
             fio = "!@#$%^&*(),.{}",
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(ContState.FAILING, ctx.state)

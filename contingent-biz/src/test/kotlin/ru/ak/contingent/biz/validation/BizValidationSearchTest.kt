@@ -3,6 +3,7 @@ package ru.ak.contingent.biz.validation
 import kotlinx.coroutines.test.runTest
 import ru.ak.contingent.backend.repository.inmemory.StudRepoStub
 import ru.ak.contingent.biz.ContStudentProcessor
+import ru.ak.contingent.biz.addTestPrincipal
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.ContCorSettings
 import ru.ak.contingent.common.models.ContCommand
@@ -26,6 +27,7 @@ class BizValidationSearchTest {
             workMode = ContWorkMode.TEST,
             studFilterRequest = ContStudentFilter()
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(0, ctx.errors.size)
         assertNotEquals(ContState.FAILING, ctx.state)
