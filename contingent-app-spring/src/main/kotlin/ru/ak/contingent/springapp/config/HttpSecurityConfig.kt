@@ -22,7 +22,6 @@ class HttpSecurityConfig {
         return InMemoryUserDetailsManager(
             user("user", "password", "USER"),
             user("admin", "password", "USER", "ADMIN"),
-            user("test", "password", "TEST"),
         )
     }
 

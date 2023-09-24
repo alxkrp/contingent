@@ -8,6 +8,7 @@ plugins {
 }
 
 dependencies {
+    val kotestVersion: String by project
     val springdocOpenapiUiVersion: String by project
     val coroutinesVersion: String by project
     val serializationVersion: String by project
@@ -47,11 +48,8 @@ dependencies {
     // tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux") // Controller, Service, etc..
-    testImplementation("com.ninja-squad:springmockk:3.0.1") // mockking beans
     testImplementation("org.springframework.security:spring-security-test") // Security
-
-    // security
-
+    testImplementation("com.ninja-squad:springmockk:3.0.1") // mockking beans
 }
 
 tasks {
