@@ -3,6 +3,7 @@ package ru.ak.contingent.biz.repo
 import kotlinx.coroutines.test.runTest
 import ru.ak.contingent.backend.repo.tests.StudRepositoryMock
 import ru.ak.contingent.biz.ContStudentProcessor
+import ru.ak.contingent.biz.addTestPrincipal
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.ContCorSettings
 import ru.ak.contingent.common.models.*
@@ -12,7 +13,6 @@ import kotlin.test.assertEquals
 
 class BizRepoUpdateTest {
 
-//    private val userId = ContUserId("321")
     private val command = ContCommand.UPDATE
     private val initAd = ContStudent(
         id = ContStudentId(123),
@@ -55,6 +55,7 @@ class BizRepoUpdateTest {
             workMode = ContWorkMode.TEST,
             studRequest = adToUpdate,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(ContState.FINISHING, ctx.state)
         assertEquals(adToUpdate.id, ctx.studResponse.id)

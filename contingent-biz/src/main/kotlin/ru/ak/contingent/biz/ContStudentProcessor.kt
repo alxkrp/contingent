@@ -4,6 +4,8 @@ import ru.ak.contingent.biz.general.initRepo
 import ru.ak.contingent.biz.general.operation
 import ru.ak.contingent.biz.general.prepareResult
 import ru.ak.contingent.biz.general.stubs
+import ru.ak.contingent.biz.permissions.accessValidation
+import ru.ak.contingent.biz.permissions.chainPermissions
 import ru.ak.contingent.biz.processors.*
 import ru.ak.contingent.biz.repo.*
 import ru.ak.contingent.biz.validation.*
@@ -44,9 +46,12 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
                     finishStudValidation("Завершение процедуры валидации")
                 }
 
+                chainPermissions("Вычисление разрешений для пользователя")
+
                 chain {
                     title = "Логика добавления"
                     repoPrepareCreate("Подготовка объекта для сохранения")
+                    accessValidation("Вычисление прав доступа")
                     repoCreate("Создание студента в БД")
                 }
 
@@ -68,9 +73,12 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
                     finishStudValidation("Завершение процедуры валидации")
                 }
 
+                chainPermissions("Вычисление разрешений для пользователя")
+
                 chain {
                     title = "Логика чтения"
                     repoRead("Чтение студента из БД")
+                    accessValidation("Вычисление прав доступа")
                     processor {
                         title = "Подготовка ответа для Read"
                         on { state == ContState.RUNNING }
@@ -101,9 +109,12 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
                     finishStudValidation("Завершение процедуры валидации")
                 }
 
+                chainPermissions("Вычисление разрешений для пользователя")
+
                 chain {
                     title = "Логика обновления"
                     repoRead("Чтение студента из БД")
+                    accessValidation("Вычисление прав доступа")
                     repoPrepareUpdate("Подготовка объекта для обновления")
                     repoUpdate("Обновление студента в БД")
                 }
@@ -126,9 +137,12 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
                     finishStudValidation("Завершение процедуры валидации")
                 }
 
+                chainPermissions("Вычисление разрешений для пользователя")
+
                 chain {
                     title = "Логика удаления"
                     repoRead("Чтение студента из БД")
+                    accessValidation("Вычисление прав доступа")
                     repoPrepareDelete("Подготовка объекта для удаления")
                     repoDelete("Удаление студента из БД")
                 }
@@ -149,7 +163,10 @@ class ContStudentProcessor (val settings: ContCorSettings = ContCorSettings()) {
                     finishStudFilterValidation("Завершение процедуры валидации")
                 }
 
-                repoSearch("Поиск объявления в БД по фильтру")
+                chainPermissions("Вычисление разрешений для пользователя")
+                accessValidation("Вычисление прав доступа")
+
+                repoSearch("Поиск студента в БД по фильтру")
 
                 prepareResult("Подготовка ответа")
             }

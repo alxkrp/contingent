@@ -4,6 +4,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertNotEquals
 import ru.ak.contingent.biz.ContStudentProcessor
+import ru.ak.contingent.biz.addTestPrincipal
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.models.*
 
@@ -17,6 +18,7 @@ fun validationIdCorrect(command: ContCommand, processor: ContStudentProcessor) =
             fio = "Иванов",
         )
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(ContState.FAILING, ctx.state)

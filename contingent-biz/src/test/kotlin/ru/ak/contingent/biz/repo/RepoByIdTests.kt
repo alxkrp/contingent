@@ -3,6 +3,7 @@ package ru.ak.contingent.biz.repo
 import kotlinx.coroutines.test.runTest
 import ru.ak.contingent.backend.repo.tests.StudRepositoryMock
 import ru.ak.contingent.biz.ContStudentProcessor
+import ru.ak.contingent.biz.addTestPrincipal
 import ru.ak.contingent.common.ContContext
 import ru.ak.contingent.common.ContCorSettings
 import ru.ak.contingent.common.models.*
@@ -51,6 +52,7 @@ fun repoNotFoundTest(command: ContCommand) = runTest {
             lock = ContStudentLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(ContState.FAILING, ctx.state)
     assertEquals(ContStudent(), ctx.studResponse)

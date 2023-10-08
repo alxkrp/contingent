@@ -8,7 +8,8 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
@@ -19,8 +20,9 @@ import ru.ak.contingent.logging.ContLoggerProvider
 import ru.ak.contingent.mappers.*
 import ru.ak.contingent.springapp.config.ContAppSettings
 
-@WebMvcTest(StudentController::class)
+@WebFluxTest(controllers = [StudentController::class], excludeAutoConfiguration = [ReactiveSecurityAutoConfiguration::class])
 internal class StudentControllerTest {
+
     @Autowired
     private lateinit var webClient: WebTestClient
 
@@ -87,6 +89,7 @@ internal class StudentControllerTest {
                 println("RESPONSE: $it")
                 Assertions.assertThat(it).isEqualTo(responseObj)
             }
+
         coVerify { processor.exec(any()) }
     }
 }
