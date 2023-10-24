@@ -18,7 +18,9 @@ fun ICorChainDsl<ContContext>.repoUpdate(title: String) = processor {
         } else {
             state = ContState.FAILING
             errors.addAll(result.errors)
-            studRepoDone
+            if (resultStudent != null) {
+                studRepoDone = resultStudent
+            }
         }
     }
 }
