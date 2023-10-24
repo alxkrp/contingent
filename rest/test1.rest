@@ -7,7 +7,7 @@ Content-Type: application/json
   "requestType": "create",
   "requestId": "1111",
   "debug": {
-    "mode": "PROD",
+    "mode": "prod",
     "stub": "success"
   },
   "student": {
@@ -30,11 +30,11 @@ Content-Type: application/json
   "requestType": "read",
   "requestId": "2222",
   "debug": {
-    "mode": "PROD",
+    "mode": "prod",
     "stub": "success"
   },
   "student": {
-    "id": 2
+    "id": 1
   }
 }
 
@@ -47,7 +47,7 @@ Content-Type: application/json
   "requestType": "update",
   "requestId": "3333",
   "debug": {
-    "mode": "PROD",
+    "mode": "prod",
     "stub": "success"
   },
   "student": {
@@ -72,12 +72,12 @@ Content-Type: application/json
   "requestType": "delete",
   "requestId": "4444",
   "debug": {
-    "mode": "PROD",
+    "mode": "prod",
     "stub": "success"
   },
   "student": {
-    "id": 3,
-    "lock": "9030fd1f-11de-486f-8ef3-7bed07815fd8"
+    "id": 2,
+    "lock": "aee95903-68b8-4ef0-980a-4de5801c4e79"
   }
 }
 
@@ -90,7 +90,7 @@ Content-Type: application/json
   "requestType": "search",
   "requestId": "5555",
   "debug": {
-    "mode": "PROD",
+    "mode": "prod",
     "stub": "success"
   },
   "studentFilter": {

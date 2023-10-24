@@ -19,7 +19,7 @@ springdoc:
       - name: student
         url: spec-student.yaml
 
-prod-repository: ${PROD_REPOSITORY:stub}
+prod-repository: ${PROD_REPOSITORY:sql}
 
 sql:
   url: ${SQL_URL:jdbc:postgresql://localhost:5432/contingent}
